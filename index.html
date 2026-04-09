@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>豆子多多 - 拼豆图纸生成器</title>
+    <meta name="description" content="上传图片，选择拼豆品牌调色板，一键生成专业拼豆图纸与颜色统计清单。支持 MARD、Hama、Perler、Artkal 等品牌。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-h: 24; --primary-s: 88%; --primary-l: 54%;
+            --primary: var(--primary-h) var(--primary-s) var(--primary-l);
+            --primary-light: var(--primary-h) 75% 72%;
+            --primary-lighter: var(--primary-h) 80% 88%;
+            --primary-dark: var(--primary-h) 80% 42%;
+            --primary-darker: var(--primary-h) 75% 32%;
+            --bg: 36 33% 97%; --bg-subtle: 36 25% 94%;
+            --surface: 0 0% 100%; --surface-hover: 0 0% 98%;
+            --border: 36 15% 88%; --border-strong: 36 12% 75%;
+            --text: 20 14% 16%; --text-secondary: 20 6% 45%; --text-muted: 20 4% 62%;
+            --accent-emerald: 152 56% 44%;
+            --gradient-hero: linear-gradient(135deg, hsl(24 85% 54%) 0%, hsl(340 65% 58%) 50%, hsl(262 50% 60%) 100%);
+            --gradient-button: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-dark)) 100%);
+            --gradient-button-hover: linear-gradient(135deg, hsl(var(--primary-dark)) 0%, hsl(var(--primary-darker)) 100%);
+            --shadow-sm: 0 1px 3px hsl(20 14% 16% / 0.06), 0 1px 2px hsl(20 14% 16% / 0.04);
+            --shadow-md: 0 4px 12px hsl(20 14% 16% / 0.08), 0 2px 4px hsl(20 14% 16% / 0.04);
+            --shadow-lg: 0 12px 40px hsl(20 14% 16% / 0.12), 0 4px 12px hsl(20 14% 16% / 0.06);
+            --shadow-xl: 0 20px 60px hsl(20 14% 16% / 0.15), 0 8px 20px hsl(20 14% 16% / 0.08);
+            --shadow-glow: 0 0 30px hsl(var(--primary) / 0.2);
+            --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px; --radius-full: 9999px;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-fast: 150ms var(--ease-out); --transition-base: 250ms var(--ease-out); --transition-slow: 400ms var(--ease-out);
+            --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px;
+            --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: hsl(var(--bg)); color: hsl(var(--text)); line-height: 1.6; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+        .header { background: var(--gradient-hero); padding: var(--space-10) var(--space-6) var(--space-12); text-align: center; position: relative; overflow: hidden; }
+        .header::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(hsl(0 0% 100% / 0.12) 1px, transparent 1px); background-size: 20px 20px; }
+        .header h1 { font-size: 2rem; font-weight: 700; color: white; position: relative; letter-spacing: -0.02em; text-shadow: 0 2px 8px hsl(0 0% 0% / 0.15); }
+        .header p { color: hsl(0 0% 100% / 0.85); font-size: 1rem; margin-top: var(--space-2); font-weight: 300; position: relative; }
+        .container { max-width: 1400px; margin: 0 auto; padding: var(--space-8) var(--space-6); }
+        .controls-panel { background: hsl(var(--surface)); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); padding: var(--space-8); margin-top: calc(var(--space-8) * -1.5); position: relative; z-index: 10; border: 1px solid hsl(var(--border)); }
+        .controls-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-6); align-items: end; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: hsl(var(--text-secondary)); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: var(--space-2); }
+        .form-select, .form-input { width: 100%; height: 48px; padding: 0 var(--space-4); border: 2px solid hsl(var(--border)); border-radius: var(--radius-md); font-size: 0.95rem; font-family: inherit; color: hsl(var(--text)); background: hsl(var(--surface)); transition: border-color var(--transition-fast), box-shadow var(--transition-fast); appearance: none; -webkit-appearance: none; }
+        .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='hsl(20 6% 45%)' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; cursor: pointer; }
+        .form-select:focus, .form-input:focus { outline: none; border-color: hsl(var(--primary)); box-shadow: 0 0 0 3px hsl(var(--primary) / 0.15); }
+        .palette-preview { display: flex; gap: 3px; margin-top: var(--space-2); flex-wrap: wrap; }
+        .palette-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid hsl(var(--border)); transition: transform var(--transition-fast); }
+        .palette-dot:hover { transform: scale(1.3); }
+        .upload-zone { border: 2px dashed hsl(var(--border-strong)); border-radius: var(--radius-lg); padding: var(--space-8); text-align: center; cursor: pointer; transition: all var(--transition-base); background: hsl(var(--bg-subtle)); position: relative; }
+        .upload-zone:hover, .upload-zone.dragover { border-color: hsl(var(--primary)); background: hsl(var(--primary-lighter)); }
+        .upload-zone.has-file { border-color: hsl(var(--accent-emerald)); background: hsl(152 30% 95%); }
+        .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .upload-icon { font-size: 2.5rem; margin-bottom: var(--space-3); opacity: 0.7; }
+        .upload-text { font-size: 0.95rem; color: hsl(var(--text-secondary)); }
+        .upload-hint { font-size: 0.8rem; color: hsl(var(--text-muted)); margin-top: var(--space-2); }
+        .file-name { font-size: 0.9rem; font-weight: 500; color: hsl(var(--accent-emerald)); }
+        .btn-generate { height: 48px; padding: 0 var(--space-8); background: var(--gradient-button); color: white; border: none; border-radius: var(--radius-md); font-size: 1rem; font-weight: 600; font-family: inherit; cursor: pointer; transition: all var(--transition-base); box-shadow: var(--shadow-md); white-space: nowrap; display: flex; align-items: center; gap: var(--space-2); }
+        .btn-generate:hover:not(:disabled) { background: var(--gradient-button-hover); box-shadow: var(--shadow-lg), var(--shadow-glow); transform: translateY(-1px); }
+        .btn-generate:active:not(:disabled) { transform: translateY(0); box-shadow: var(--shadow-sm); }
+        .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; }
+        .main-content { display: none; grid-template-columns: 1fr 340px; gap: var(--space-8); margin-top: var(--space-8); align-items: start; }
+        .main-content.visible { display: grid; }
+        .canvas-card { background: hsl(var(--surface)); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); padding: var(--space-6); border: 1px solid hsl(var(--border)); }
+        .canvas-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-5); padding-bottom: var(--space-4); border-bottom: 1px solid hsl(var(--border)); }
+        .canvas-title { font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: var(--space-2); }
+        .canvas-info { font-size: 0.8rem; color: hsl(var(--text-muted)); }
+        .canvas-wrapper { display: flex; justify-content: center; background: hsl(var(--bg-subtle)); border-radius: var(--radius-lg); padding: var(--space-4); min-height: 400px; align-items: center; position: relative; }
+        .canvas-wrapper canvas { border-radius: var(--radius-sm); box-shadow: var(--shadow-md); max-width: 100%; height: auto; cursor: crosshair; display: none; }
+        .canvas-empty { text-align: center; padding: var(--space-16) var(--space-8); color: hsl(var(--text-muted)); }
+        .canvas-empty-icon { font-size: 3rem; margin-bottom: var(--space-4); opacity: 0.5; }
+        .color-tooltip { position: absolute; pointer-events: none; background: hsl(20 14% 16%); color: white; padding: 8px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 500; z-index: 100; opacity: 0; transition: opacity 120ms ease; box-shadow: 0 8px 24px hsl(20 14% 16% / 0.25); white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+        .color-tooltip.visible { opacity: 1; }
+        .color-tooltip-swatch { width: 18px; height: 18px; border-radius: 4px; border: 1.5px solid hsl(0 0% 100% / 0.3); flex-shrink: 0; }
+        .color-tooltip-name { font-weight: 600; }
+        .color-tooltip-hex { color: hsl(0 0% 100% / 0.65); font-size: 0.72rem; font-family: 'SF Mono', monospace; }
+        .color-tooltip-pos { color: hsl(0 0% 100% / 0.45); font-size: 0.7rem; margin-left: 4px; }
+        .stats-card { background: hsl(var(--surface)); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid hsl(var(--border)); overflow: hidden; position: sticky; top: var(--space-6); max-height: calc(100vh - var(--space-12)); display: flex; flex-direction: column; }
+        .stats-header { padding: var(--space-5) var(--space-6); border-bottom: 1px solid hsl(var(--border)); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+        .stats-title { font-size: 1rem; font-weight: 600; }
+        .stats-badge { background: hsl(var(--primary-lighter)); color: hsl(var(--primary-dark)); font-size: 0.75rem; font-weight: 600; padding: 2px 10px; border-radius: var(--radius-full); }
+        .stats-controls { padding: var(--space-3) var(--space-6); display: none; gap: var(--space-2); border-bottom: 1px solid hsl(var(--border)); flex-shrink: 0; }
+        .stats-sort-btn { padding: 4px 12px; font-size: 0.75rem; font-weight: 500; border: 1px solid hsl(var(--border)); border-radius: var(--radius-full); background: hsl(var(--surface)); color: hsl(var(--text-secondary)); cursor: pointer; transition: all var(--transition-fast); font-family: inherit; }
+        .stats-sort-btn.active { background: hsl(var(--primary)); color: white; border-color: hsl(var(--primary)); }
+        .stats-sort-btn:hover:not(.active) { border-color: hsl(var(--primary-light)); color: hsl(var(--primary-dark)); }
+        .stats-list { padding: var(--space-4) var(--space-6); overflow-y: auto; flex: 1; }
+        .stats-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) 0; border-bottom: 1px solid hsl(var(--bg-subtle)); transition: background var(--transition-fast); }
+        .stats-item:last-child { border-bottom: none; }
+        .stats-item:hover { background: hsl(var(--bg-subtle)); margin: 0 calc(var(--space-3) * -1); padding-left: var(--space-3); padding-right: var(--space-3); border-radius: var(--radius-sm); }
+        .color-swatch { width: 28px; height: 28px; border-radius: 6px; border: 2px solid hsl(var(--border)); flex-shrink: 0; box-shadow: var(--shadow-sm); }
+        .color-info { flex: 1; min-width: 0; }
+        .color-name { font-size: 0.85rem; font-weight: 600; }
+        .color-hex { font-size: 0.7rem; color: hsl(var(--text-muted)); font-family: 'SF Mono', 'Fira Code', monospace; }
+        .color-count { font-size: 0.9rem; font-weight: 600; color: hsl(var(--text-secondary)); flex-shrink: 0; }
+        .color-bar { height: 4px; background: hsl(var(--primary-lighter)); border-radius: 2px; margin-top: 4px; overflow: hidden; }
+        .color-bar-fill { height: 100%; background: hsl(var(--primary)); border-radius: 2px; transition: width var(--transition-slow); }
+        .stats-footer { padding: var(--space-4) var(--space-6); border-top: 1px solid hsl(var(--border)); background: hsl(var(--bg-subtle)); display: none; flex-shrink: 0; }
+        .stats-total { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 600; }
+        .stats-total-count { color: hsl(var(--primary-dark)); }
+        .btn-copy { margin-top: var(--space-3); width: 100%; height: 40px; border: 1px solid hsl(var(--border)); border-radius: var(--radius-md); background: hsl(var(--surface)); color: hsl(var(--text-secondary)); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all var(--transition-fast); font-family: inherit; }
+        .btn-copy:hover { border-color: hsl(var(--primary)); color: hsl(var(--primary-dark)); background: hsl(var(--primary-lighter)); }
+        .stats-empty { padding: var(--space-12) var(--space-6); text-align: center; color: hsl(var(--text-muted)); }
+        .stats-empty-icon { font-size: 2rem; margin-bottom: var(--space-3); opacity: 0.5; }
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: hsl(20 14% 16%); color: white; padding: var(--space-3) var(--space-6); border-radius: var(--radius-full); font-size: 0.9rem; font-weight: 500; box-shadow: var(--shadow-xl); z-index: 1000; opacity: 0; transition: all var(--transition-base); pointer-events: none; }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .preview-thumb { width: 48px; height: 48px; border-radius: var(--radius-sm); object-fit: cover; border: 2px solid hsl(var(--border)); }
+        .upload-preview { display: none; align-items: center; gap: var(--space-3); margin-top: var(--space-3); }
+        @media (max-width: 1024px) { .main-content { grid-template-columns: 1fr; } .stats-card { position: static; max-height: none; } .controls-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 640px) { .controls-grid { grid-template-columns: 1fr; } .header h1 { font-size: 1.5rem; } .container { padding: var(--space-4); } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>✨ 豆子多多</h1>
+        <p>上传图片 · 选择品牌 · 一键生成图纸</p>
+    </header>
+    <div class="container">
+        <div class="controls-panel">
+            <div class="controls-grid">
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>选择图片</label>
+                    <div class="upload-zone" id="uploadZone">
+                        <input type="file" id="upload" accept="image/*">
+                        <div class="upload-icon">🖼️</div>
+                        <div class="upload-text">点击上传或将图片拖拽到此处</div>
+                        <div class="upload-hint">支持 JPG、PNG、WebP 格式</div>
+                        <div class="upload-preview" id="uploadPreview">
+                            <img class="preview-thumb" id="previewThumb" src="" alt="预览">
+                            <div><div class="file-name" id="fileName"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>拼豆品牌</label>
+                    <select class="form-select" id="paletteSelect"><option value="mard">MARD</option></select>
+                    <div class="palette-preview" id="palettePreview"></div>
+                </div>
+                <div class="form-group">
+                    <label>网格精度</label>
+                    <input type="number" class="form-input" id="gridSize" value="50" min="10" max="200">
+                    <div style="font-size: 0.75rem; color: hsl(var(--text-muted)); margin-top: 4px;">范围：10 - 200</div>
+                </div>
+                <div class="form-group" style="grid-column: 1 / -1; display: flex; justify-content: center;">
+                    <button class="btn-generate" id="generateBtn" onclick="handleGenerate()"><span>⚡</span> 生成图纸</button>
+                </div>
+            </div>
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="canvas-card">
+                <div class="canvas-header">
+                    <div class="canvas-title">📐 图纸预览</div>
+                    <div class="canvas-info" id="canvasInfo"></div>
+                </div>
+                <div class="canvas-wrapper" id="canvasWrapper">
+                    <div class="canvas-empty" id="canvasEmpty">
+                        <div class="canvas-empty-icon">🎨</div>
+                        <div>上传图片并点击「生成图纸」</div>
+                        <div style="font-size: 0.8rem; margin-top: 4px;">图纸将在这里显示</div>
+                    </div>
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+            <div class="stats-card">
+                <div class="stats-header">
+                    <div class="stats-title">📋 颜色统计</div>
+                    <div class="stats-badge" id="colorCount">0 色</div>
+                </div>
+                <div class="stats-controls" id="statsControls">
+                    <button class="stats-sort-btn active" data-sort="count" onclick="sortStats('count', this)">按数量</button>
+                    <button class="stats-sort-btn" data-sort="name" onclick="sortStats('name', this)">按名称</button>
+                </div>
+                <div class="stats-list" id="statsList"></div>
+                <div class="stats-empty" id="statsEmpty" style="display:none;"><div class="stats-empty-icon">📊</div><div>生成图纸后显示颜色统计</div></div>
+                <div class="stats-footer" id="statsFooter">
+                    <div class="stats-total"><span>总计</span><span class="stats-total-count" id="totalCount">0 颗</span></div>
+                    <button class="btn-copy" onclick="copyStats()">📋 复制统计清单</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script src="palettes.js"></script>
+    <script>
+        var app = {
+            paletteNames: { 'mard':'MARD','hama':'Hama','perler':'Perler','perler-mini':'Perler Mini','nabbi':'Nabbi','artkal-s':'Artkal S (2.6mm)','artkal-r':'Artkal R (5mm)','artkal-c':'Artkal C (10mm)','artkal-a':'Artkal A (10mm mini)' },
+            counts: [],
+            paletteKey: '',
+            sort: 'count',
+            gridData: [],
+            gridSize: 0
+        };
+
+        (function() {
+            var sel = document.getElementById('paletteSelect');
+            var keys = Object.keys(app.paletteNames);
+            for (var k = 0; k < keys.length; k++) {
+                if (window.allPalettes && window.allPalettes.has(keys[k])) {
+                    var opt = document.createElement('option');
+                    opt.value = keys[k];
+                    opt.textContent = app.paletteNames[keys[k]];
+                    sel.appendChild(opt);
+                }
+            }
+            updatePalettePreview();
+        })();
+
+        function updatePalettePreview() {
+            var key = document.getElementById('paletteSelect').value;
+            var pal = window.allPalettes.get(key);
+            var container = document.getElementById('palettePreview');
+            if (!pal) { container.innerHTML = ''; return; }
+            var dots = '';
+            var limit = pal.length < 20 ? pal.length : 20;
+            for (var i = 0; i < limit; i++) {
+                dots += '<div class="palette-dot" style="background:' + pal[i].color + '"></div>';
+            }
+            if (pal.length > 20) {
+                dots += '<div style="font-size:0.7rem;color:hsl(var(--text-muted));line-height:14px;">+' + (pal.length - 20) + '</div>';
+            }
+            container.innerHTML = dots;
+        }
+        document.getElementById('paletteSelect').addEventListener('change', updatePalettePreview);
+
+        var uploadInput = document.getElementById('upload');
+        var uploadZone = document.getElementById('uploadZone');
+        var uploadPreview = document.getElementById('uploadPreview');
+        var previewThumb = document.getElementById('previewThumb');
+        var fileNameEl = document.getElementById('fileName');
+
+        function handleFile(file) {
+            if (!file) return;
+            fileNameEl.textContent = file.name;
+            previewThumb.src = URL.createObjectURL(file);
+            uploadPreview.style.display = 'flex';
+            uploadZone.classList.add('has-file');
+        }
+        uploadInput.addEventListener('change', function(e) { handleFile(e.target.files[0]); });
+        uploadZone.addEventListener('dragover', function(e) { e.preventDefault(); uploadZone.classList.add('dragover'); });
+        uploadZone.addEventListener('dragleave', function() { uploadZone.classList.remove('dragover'); });
+        uploadZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            var file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                uploadInput.files = e.dataTransfer.files;
+                handleFile(file);
+            }
+        });
+
+        var canvasWrapper = document.getElementById('canvasWrapper');
+        var tooltipEl = document.createElement('div');
+        tooltipEl.className = 'color-tooltip';
+        canvasWrapper.appendChild(tooltipEl);
+
+        document.getElementById('canvas').addEventListener('mousemove', function(e) {
+            if (app.gridData.length === 0) return;
+            var rect = this.getBoundingClientRect();
+            var scaleX = this.width / rect.width;
+            var scaleY = this.height / rect.height;
+            var px = Math.floor((e.clientX - rect.left) * scaleX);
+            var py = Math.floor((e.clientY - rect.top) * scaleY);
+            var cellSize = 800 / app.gridSize;
+            var gx = Math.floor(px / cellSize);
+            var gy = Math.floor(py / cellSize);
+            if (gx < 0 || gx >= app.gridSize || gy < 0 || gy >= app.gridSize || !app.gridData[gy] || !app.gridData[gy][gx]) {
+                tooltipEl.classList.remove('visible');
+                return;
+            }
+            var cell = app.gridData[gy][gx];
+            tooltipEl.innerHTML = '<div class="color-tooltip-swatch" style="background:' + cell.color + '"></div><span class="color-tooltip-name">' + cell.name + '</span><span class="color-tooltip-hex">' + cell.color + '</span><span class="color-tooltip-pos">(' + gx + ', ' + gy + ')</span>';
+            tooltipEl.classList.add('visible');
+            var wrapperRect = canvasWrapper.getBoundingClientRect();
+            var tx = e.clientX - wrapperRect.left + 16;
+            var ty = e.clientY - wrapperRect.top - 40;
+            if (tx + 220 > wrapperRect.width) tx = e.clientX - wrapperRect.left - 220;
+            if (ty < 0) ty = e.clientY - wrapperRect.top + 20;
+            tooltipEl.style.left = tx + 'px';
+            tooltipEl.style.top = ty + 'px';
+        });
+        document.getElementById('canvas').addEventListener('mouseleave', function() { tooltipEl.classList.remove('visible'); });
+
+        function showToast(msg) {
+            var t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(function() { t.classList.remove('show'); }, 2200);
+        }
+
+        function hexToRgb(hex) {
+            hex = hex.replace('#', '');
+            return [parseInt(hex.substring(0, 2), 16), parseInt(hex.substring(2, 4), 16), parseInt(hex.substring(4, 6), 16)];
+        }
+
+        function getNearestColor(r, g, b, paletteArray) {
+            var best = null;
+            var minDist = 999999;
+            for (var i = 0; i < paletteArray.length; i++) {
+                var rgb = hexToRgb(paletteArray[i].color);
+                var dr = r - rgb[0], dg = g - rgb[1], db = b - rgb[2];
+                var dist = dr * dr + dg * dg + db * db;
+                if (dist < minDist) {
+                    minDist = dist;
+                    best = { name: paletteArray[i].name, color: paletteArray[i].color };
+                }
+            }
+            return best;
+        }
+
+        function handleGenerate() {
+            var file = uploadInput.files[0];
+            if (!file) { showToast('请先上传图片'); return; }
+
+            var palKey = document.getElementById('paletteSelect').value;
+            var pal = window.allPalettes.get(palKey);
+            if (!pal || pal.length === 0) { showToast('调色板数据为空'); return; }
+
+            var gs = parseInt(document.getElementById('gridSize').value) || 50;
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+            var btn = document.getElementById('generateBtn');
+
+            btn.disabled = true;
+            btn.innerHTML = '<div class="spinner"></div> 生成中...';
+
+            ctx.imageSmoothingEnabled = false;
+            canvas.width = 800;
+            canvas.height = 800;
+            var cellSize = 800 / gs;
+
+            var countMap = {};
+            app.gridData = [];
+            app.gridSize = gs;
+            app.paletteKey = palKey;
+
+            var img = new Image();
+            img.onload = function() {
+                try {
+                    var tc = document.createElement('canvas');
+                    tc.width = gs;
+                    tc.height = gs;
+                    var tctx = tc.getContext('2d');
+                    tctx.drawImage(img, 0, 0, gs, gs);
+                    var imgData = tctx.getImageData(0, 0, gs, gs).data;
+
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, 800, 800);
+
+                    for (var y = 0; y < gs; y++) {
+                        app.gridData[y] = [];
+                        for (var x = 0; x < gs; x++) {
+                            var idx = (y * gs + x) * 4;
+                            if (imgData[idx + 3] < 128) {
+                                app.gridData[y][x] = null;
+                                continue;
+                            }
+                            var match = getNearestColor(imgData[idx], imgData[idx+1], imgData[idx+2], pal);
+                            if (!match) {
+                                app.gridData[y][x] = null;
+                                continue;
+                            }
+
+                            app.gridData[y][x] = match;
+                            ctx.fillStyle = match.color;
+                            ctx.fillRect(Math.round(x * cellSize), Math.round(y * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
+
+                            if (countMap[match.name] === undefined) {
+                                countMap[match.name] = { name: match.name, color: match.color, count: 0 };
+                            }
+                            countMap[match.name].count++;
+                        }
+                    }
+
+                    ctx.strokeStyle = 'rgba(0,0,0,0.12)';
+                    ctx.lineWidth = 0.5;
+                    for (var i = 0; i <= gs; i++) {
+                        var pos = Math.round(i * cellSize) + 0.5;
+                        ctx.beginPath(); ctx.moveTo(pos, 0); ctx.lineTo(pos, 800); ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(0, pos); ctx.lineTo(800, pos); ctx.stroke();
+                    }
+                    ctx.strokeStyle = 'rgba(0,0,0,0.30)';
+                    ctx.lineWidth = 1;
+                    for (var i = 0; i <= gs; i += 5) {
+                        var pos = Math.round(i * cellSize) + 0.5;
+                        ctx.beginPath(); ctx.moveTo(pos, 0); ctx.lineTo(pos, 800); ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(0, pos); ctx.lineTo(800, pos); ctx.stroke();
+                    }
+
+                    var resultArray = [];
+                    var mapKeys = Object.keys(countMap);
+                    for (var i = 0; i < mapKeys.length; i++) {
+                        resultArray.push(countMap[mapKeys[i]]);
+                    }
+
+                    var totalAll = 0;
+                    for (var i = 0; i < resultArray.length; i++) {
+                        totalAll += resultArray[i].count;
+                    }
+
+                    console.log('[bead] Colors found:', resultArray.length, 'Total beads:', totalAll);
+
+                    app.counts = resultArray;
+
+                    document.getElementById('mainContent').classList.add('visible');
+                    canvas.style.display = 'block';
+                    document.getElementById('canvasEmpty').style.display = 'none';
+                    document.getElementById('canvasInfo').textContent = gs + 'x' + gs + '  \u00B7  ' + resultArray.length + ' \u8272';
+
+                    renderStats();
+                    showToast('\u56FE\u7EB8\u751F\u6210\u6210\u529F\uFF0C' + resultArray.length + ' \u8272\uFF0C\u5171 ' + totalAll.toLocaleString() + ' \u9897');
+
+                } catch (err) {
+                    console.error('Error:', err);
+                    showToast('生成失败: ' + err.message);
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>\u26A1</span> \u751F\u6210\u56FE\u7EB8';
+                }
+            };
+            img.onerror = function() {
+                btn.disabled = false;
+                btn.innerHTML = '<span>\u26A1</span> \u751F\u6210\u56FE\u7EB8';
+                showToast('图片加载失败');
+            };
+            img.src = URL.createObjectURL(file);
+        }
+
+        function sortStats(sortMode, btn) {
+            app.sort = sortMode;
+            var btns = document.querySelectorAll('.stats-sort-btn');
+            for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+            if (btn) btn.classList.add('active');
+            renderStats();
+        }
+
+        function renderStats() {
+            var items = app.counts;
+            if (!items || items.length === 0) {
+                document.getElementById('statsControls').style.display = 'none';
+                document.getElementById('statsFooter').style.display = 'none';
+                document.getElementById('statsEmpty').style.display = 'block';
+                document.getElementById('colorCount').textContent = '0 \u8272';
+                document.getElementById('totalCount').textContent = '0 \u9897';
+                return;
+            }
+
+            var arr = items.slice(0);
+            if (app.sort === 'count') {
+                arr.sort(function(a, b) { return b.count - a.count; });
+            } else {
+                arr.sort(function(a, b) { return a.name.localeCompare(b.name); });
+            }
+
+            var maxCount = 0;
+            var total = 0;
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].count > maxCount) maxCount = arr[i].count;
+                total += arr[i].count;
+            }
+
+            var html = '';
+            for (var i = 0; i < arr.length; i++) {
+                var item = arr[i];
+                var pct = Math.round((item.count / maxCount) * 100);
+                var pctTotal = (item.count / total * 100).toFixed(1);
+                html += '<div class="stats-item">' +
+                    '<div class="color-swatch" style="background:' + item.color + '"></div>' +
+                    '<div class="color-info">' +
+                    '<div class="color-name">' + item.name + ' <span style="font-weight:400;color:hsl(var(--text-muted));font-size:0.75rem;">' + pctTotal + '%</span></div>' +
+                    '<div class="color-hex">' + item.color + '</div>' +
+                    '<div class="color-bar"><div class="color-bar-fill" style="width:' + pct + '%"></div></div>' +
+                    '</div>' +
+                    '<div class="color-count">' + item.count + '</div>' +
+                    '</div>';
+            }
+
+            document.getElementById('statsList').innerHTML = html;
+            document.getElementById('statsControls').style.display = 'flex';
+            document.getElementById('statsFooter').style.display = 'block';
+            document.getElementById('statsEmpty').style.display = 'none';
+            document.getElementById('colorCount').textContent = arr.length + ' \u8272';
+            document.getElementById('totalCount').textContent = total.toLocaleString() + ' \u9897';
+        }
+
+        function copyStats() {
+            var items = app.counts;
+            if (!items || items.length === 0) return;
+            var arr = items.slice(0);
+            if (app.sort === 'count') {
+                arr.sort(function(a, b) { return b.count - a.count; });
+            } else {
+                arr.sort(function(a, b) { return a.name.localeCompare(b.name); });
+            }
+            var total = 0;
+            for (var i = 0; i < arr.length; i++) total += arr[i].count;
+            var gs = document.getElementById('gridSize').value;
+            var text = '拼豆图纸统计清单\n品牌: ' + (app.paletteNames[app.paletteKey] || app.paletteKey) + '\n网格: ' + gs + 'x' + gs + '\n总计: ' + total.toLocaleString() + ' 颗\n\n';
+            for (var i = 0; i < arr.length; i++) {
+                text += arr[i].name + ' (' + arr[i].color + '): ' + arr[i].count + ' 颗\n';
+            }
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(function() { showToast('已复制到剪贴板'); });
+            }
+        }
+    </script>
+</body>
+</html>
