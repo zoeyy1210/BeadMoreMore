@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>豆子多多 - 拼豆图纸生成器</title>
     <meta name="description" content="上传图片，选择拼豆品牌调色板，一键生成专业拼豆图纸与颜色统计清单。支持 MARD、Hama、Perler、Artkal 等品牌。">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-h: 24; --primary-s: 88%; --primary-l: 54%;
@@ -36,13 +33,13 @@
             --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: hsl(var(--bg)); color: hsl(var(--text)); line-height: 1.6; min-height: 100vh; -webkit-font-smoothing: antialiased; }
-        .header { background: var(--gradient-hero); padding: var(--space-10) var(--space-6) var(--space-12); text-align: center; position: relative; overflow: hidden; }
-        .header::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(hsl(0 0% 100% / 0.12) 1px, transparent 1px); background-size: 20px 20px; }
-        .header h1 { font-size: 2rem; font-weight: 700; color: white; position: relative; letter-spacing: -0.02em; text-shadow: 0 2px 8px hsl(0 0% 0% / 0.15); }
-        .header p { color: hsl(0 0% 100% / 0.85); font-size: 1rem; margin-top: var(--space-2); font-weight: 300; position: relative; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; background: hsl(var(--bg)); color: hsl(var(--text)); line-height: 1.6; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+        .header { background: var(--gradient-hero); padding: var(--space-8) var(--space-6) var(--space-10); text-align: center; position: relative; overflow: hidden; }
+        .header::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(hsl(0 0% 100% / 0.1) 1px, transparent 1px); background-size: 24px 24px; }
+        .header h1 { font-size: 1.75rem; font-weight: 700; color: white; position: relative; letter-spacing: -0.02em; text-shadow: 0 2px 8px hsl(0 0% 0% / 0.15); }
+        .header p { color: hsl(0 0% 100% / 0.8); font-size: 0.9rem; margin-top: var(--space-1); font-weight: 400; position: relative; letter-spacing: 0.04em; }
         .container { max-width: 1400px; margin: 0 auto; padding: var(--space-8) var(--space-6); }
-        .controls-panel { background: hsl(var(--surface)); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); padding: var(--space-8); margin-top: calc(var(--space-8) * -1.5); position: relative; z-index: 10; border: 1px solid hsl(var(--border)); }
+        .controls-panel { background: hsl(var(--surface)); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); padding: var(--space-6) var(--space-8); position: relative; z-index: 10; border: 1px solid hsl(var(--border)); }
         .controls-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-6); align-items: end; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: hsl(var(--text-secondary)); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: var(--space-2); }
         .form-select, .form-input { width: 100%; height: 48px; padding: 0 var(--space-4); border: 2px solid hsl(var(--border)); border-radius: var(--radius-md); font-size: 0.95rem; font-family: inherit; color: hsl(var(--text)); background: hsl(var(--surface)); transition: border-color var(--transition-fast), box-shadow var(--transition-fast); appearance: none; -webkit-appearance: none; }
@@ -51,9 +48,9 @@
         .palette-preview { display: flex; gap: 3px; margin-top: var(--space-2); flex-wrap: wrap; }
         .palette-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid hsl(var(--border)); transition: transform var(--transition-fast); }
         .palette-dot:hover { transform: scale(1.3); }
-        .upload-zone { border: 2px dashed hsl(var(--border-strong)); border-radius: var(--radius-lg); padding: var(--space-8); text-align: center; cursor: pointer; transition: all var(--transition-base); background: hsl(var(--bg-subtle)); position: relative; }
+        .upload-zone { border: 2px dashed hsl(var(--border-strong)); border-radius: var(--radius-lg); padding: var(--space-6); text-align: center; cursor: pointer; transition: all var(--transition-base); background: hsl(var(--bg-subtle)); position: relative; }
         .upload-zone:hover, .upload-zone.dragover { border-color: hsl(var(--primary)); background: hsl(var(--primary-lighter)); }
-        .upload-zone.has-file { border-color: hsl(var(--accent-emerald)); background: hsl(152 30% 95%); }
+        .upload-zone.has-file { border-style: solid; border-color: hsl(var(--accent-emerald)); background: hsl(152 30% 97%); }
         .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
         .upload-icon { font-size: 2.5rem; margin-bottom: var(--space-3); opacity: 0.7; }
         .upload-text { font-size: 0.95rem; color: hsl(var(--text-secondary)); }
@@ -65,22 +62,26 @@
         .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; }
         .main-content { display: none; grid-template-columns: 1fr 340px; gap: var(--space-8); margin-top: var(--space-8); align-items: start; }
         .main-content.visible { display: grid; }
-        .canvas-card { background: hsl(var(--surface)); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); padding: var(--space-6); border: 1px solid hsl(var(--border)); }
-        .canvas-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-5); padding-bottom: var(--space-4); border-bottom: 1px solid hsl(var(--border)); }
-        .canvas-title { font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: var(--space-2); }
-        .canvas-info { font-size: 0.8rem; color: hsl(var(--text-muted)); }
+        .canvas-card { background: hsl(var(--surface)); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); padding: var(--space-5); border: 1px solid hsl(var(--border)); }
+        .canvas-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-4); padding: 0 var(--space-1); }
+        .canvas-title { font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: var(--space-2); color: hsl(var(--text-secondary)); }
+        .canvas-info { font-size: 0.78rem; color: hsl(var(--text-muted)); font-family: 'SF Mono', 'Fira Code', monospace; background: hsl(var(--bg-subtle)); padding: 2px 10px; border-radius: var(--radius-full); }
         .canvas-wrapper { display: flex; justify-content: center; background: hsl(var(--bg-subtle)); border-radius: var(--radius-lg); padding: var(--space-4); min-height: 400px; align-items: center; position: relative; }
-        .canvas-wrapper canvas { border-radius: var(--radius-sm); box-shadow: var(--shadow-md); max-width: 100%; height: auto; cursor: crosshair; display: none; }
-        .canvas-empty { text-align: center; padding: var(--space-16) var(--space-8); color: hsl(var(--text-muted)); }
-        .canvas-empty-icon { font-size: 3rem; margin-bottom: var(--space-4); opacity: 0.5; }
+        .canvas-wrapper canvas { border-radius: var(--radius-sm); box-shadow: var(--shadow-md); max-width: 100%; height: auto; display: none; }
+        .canvas-wrapper canvas.grid-cursor { cursor: crosshair; }
+        .canvas-wrapper canvas.pointer-cursor { cursor: pointer; }
+        .canvas-wrapper canvas.eraser-cursor { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Crect x='4' y='4' width='12' height='12' fill='white' stroke='%23333' stroke-width='1.5' rx='2'/%3E%3C/svg%3E") 10 10, crosshair; }
+        .canvas-wrapper canvas.shape-cursor { cursor: crosshair; }
+        .canvas-empty { text-align: center; padding: var(--space-12) var(--space-8); color: hsl(var(--text-muted)); }
+        .canvas-empty-icon { font-size: 2.5rem; margin-bottom: var(--space-3); opacity: 0.4; }
         .color-tooltip { position: absolute; pointer-events: none; background: hsl(20 14% 16%); color: white; padding: 8px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 500; z-index: 100; opacity: 0; transition: opacity 120ms ease; box-shadow: 0 8px 24px hsl(20 14% 16% / 0.25); white-space: nowrap; display: flex; align-items: center; gap: 8px; }
         .color-tooltip.visible { opacity: 1; }
         .color-tooltip-swatch { width: 18px; height: 18px; border-radius: 4px; border: 1.5px solid hsl(0 0% 100% / 0.3); flex-shrink: 0; }
         .color-tooltip-name { font-weight: 600; }
         .color-tooltip-hex { color: hsl(0 0% 100% / 0.65); font-size: 0.72rem; font-family: 'SF Mono', monospace; }
         .color-tooltip-pos { color: hsl(0 0% 100% / 0.45); font-size: 0.7rem; margin-left: 4px; }
-        .stats-card { background: hsl(var(--surface)); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid hsl(var(--border)); overflow: hidden; position: sticky; top: var(--space-6); max-height: calc(100vh - var(--space-12)); display: flex; flex-direction: column; }
-        .stats-header { padding: var(--space-5) var(--space-6); border-bottom: 1px solid hsl(var(--border)); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+        .stats-card { background: hsl(var(--surface)); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); border: 1px solid hsl(var(--border)); overflow: hidden; position: sticky; top: var(--space-6); max-height: calc(100vh - var(--space-12)); display: flex; flex-direction: column; }
+        .stats-header { padding: var(--space-4) var(--space-5); border-bottom: 1px solid hsl(var(--border)); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
         .stats-title { font-size: 1rem; font-weight: 600; }
         .stats-badge { background: hsl(var(--primary-lighter)); color: hsl(var(--primary-dark)); font-size: 0.75rem; font-weight: 600; padding: 2px 10px; border-radius: var(--radius-full); }
         .stats-controls { padding: var(--space-3) var(--space-6); display: none; gap: var(--space-2); border-bottom: 1px solid hsl(var(--border)); flex-shrink: 0; }
@@ -105,7 +106,44 @@
         .btn-copy:hover { border-color: hsl(var(--primary)); color: hsl(var(--primary-dark)); background: hsl(var(--primary-lighter)); }
         .stats-empty { padding: var(--space-12) var(--space-6); text-align: center; color: hsl(var(--text-muted)); }
         .stats-empty-icon { font-size: 2rem; margin-bottom: var(--space-3); opacity: 0.5; }
-        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: hsl(20 14% 16%); color: white; padding: var(--space-3) var(--space-6); border-radius: var(--radius-full); font-size: 0.9rem; font-weight: 500; box-shadow: var(--shadow-xl); z-index: 1000; opacity: 0; transition: all var(--transition-base); pointer-events: none; }
+
+        /* Tab 切换 - 胶囊分段控件 */
+        .mode-tabs { display: inline-flex; gap: var(--space-1); padding: var(--space-1); background: hsl(var(--bg-subtle)); border-radius: var(--radius-lg); border: 1px solid hsl(var(--border)); margin-bottom: var(--space-6); position: relative; }
+        .mode-tab { position: relative; padding: var(--space-3) var(--space-6); font-size: 0.9rem; font-weight: 600; color: hsl(var(--text-muted)); background: none; border: none; border-radius: var(--radius-md); cursor: pointer; transition: color var(--transition-base); font-family: inherit; z-index: 1; display: flex; align-items: center; gap: var(--space-2); white-space: nowrap; letter-spacing: -0.01em; }
+        .mode-tab:hover { color: hsl(var(--text-secondary)); }
+        .mode-tab.active { color: hsl(var(--primary-dark)); }
+        .mode-tab.active::before { content: ''; position: absolute; inset: 0; background: hsl(var(--surface)); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); z-index: -1; animation: tabSlideIn 250ms var(--ease-out); }
+        @keyframes tabSlideIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        /* 工具栏 */
+        .toolbar { display: none; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); background: hsl(var(--surface)); border-radius: var(--radius-lg); margin-bottom: var(--space-4); flex-wrap: wrap; border: 1px solid hsl(var(--border)); box-shadow: var(--shadow-sm); }
+        .toolbar.visible { display: flex; }
+        .toolbar-group { display: flex; align-items: center; gap: var(--space-1); }
+        .toolbar-sep { width: 1px; height: 24px; background: hsl(var(--border)); margin: 0 var(--space-2); }
+        .tool-btn { height: 34px; padding: 0 var(--space-3); border: 1px solid transparent; border-radius: var(--radius-sm); background: transparent; color: hsl(var(--text-secondary)); font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all var(--transition-fast); font-family: inherit; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .tool-btn:hover { background: hsl(var(--bg-subtle)); color: hsl(var(--text)); }
+        .tool-btn.active { background: hsl(var(--primary)); color: white; box-shadow: 0 1px 3px hsl(var(--primary) / 0.3); }
+        .tool-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .tool-btn:disabled:hover { background: transparent; color: hsl(var(--text-secondary)); }
+        .tool-select { height: 34px; padding: 0 var(--space-3); border: 1px solid hsl(var(--border)); border-radius: var(--radius-sm); background: hsl(var(--surface)); color: hsl(var(--text)); font-size: 0.82rem; font-family: inherit; cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='hsl(20 6% 45%)' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; padding-right: 28px; transition: border-color var(--transition-fast); }
+        .tool-select:hover { border-color: hsl(var(--primary-light)); }
+        .color-picker-inline { width: 34px; height: 34px; border: 2px solid hsl(var(--border)); border-radius: var(--radius-sm); cursor: pointer; padding: 2px; background: hsl(var(--surface)); transition: border-color var(--transition-fast); }
+        .color-picker-inline:hover { border-color: hsl(var(--primary-light)); }
+        .color-picker-inline::-webkit-color-swatch-wrapper { padding: 0; }
+        .color-picker-inline::-webkit-color-swatch { border: none; border-radius: 3px; }
+
+        /* 框选框 */
+        .selection-overlay { position: absolute; border: 2px dashed hsl(220 90% 60%); background: hsl(220 90% 60% / 0.15); pointer-events: none; z-index: 50; display: none; }
+
+        /* 颜色选择浮层 */
+        .color-picker-popup { position: absolute; z-index: 200; background: hsl(var(--surface)); border: 1px solid hsl(var(--border)); border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); padding: var(--space-4); display: none; max-width: 320px; }
+        .color-picker-popup.visible { display: block; }
+        .color-picker-popup-header { font-size: 0.8rem; font-weight: 600; color: hsl(var(--text-secondary)); margin-bottom: var(--space-3); }
+        .color-picker-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+        .color-picker-cell { width: 28px; height: 28px; border-radius: 4px; border: 2px solid hsl(var(--border)); cursor: pointer; transition: transform var(--transition-fast), border-color var(--transition-fast); }
+        .color-picker-cell:hover { transform: scale(1.15); border-color: hsl(var(--primary)); }
+
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: hsl(20 14% 16% / 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: white; padding: var(--space-3) var(--space-6); border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 500; box-shadow: var(--shadow-xl); z-index: 1000; opacity: 0; transition: all var(--transition-base); pointer-events: none; }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -121,49 +159,138 @@
         <p>上传图片 · 选择品牌 · 一键生成图纸</p>
     </header>
     <div class="container">
+        <!-- Mode Tabs -->
+        <div class="mode-tabs" id="modeTabs">
+            <button class="mode-tab active" data-mode="generate" onclick="switchMode('generate')">📐 图纸生成</button>
+            <button class="mode-tab" data-mode="draw" onclick="switchMode('draw')">🎨 自由画图</button>
+        </div>
+
         <div class="controls-panel">
-            <div class="controls-grid">
-                <div class="form-group" style="grid-column: 1 / -1;">
-                    <label>选择图片</label>
-                    <div class="upload-zone" id="uploadZone">
-                        <input type="file" id="upload" accept="image/*">
-                        <div class="upload-icon">🖼️</div>
-                        <div class="upload-text">点击上传或将图片拖拽到此处</div>
-                        <div class="upload-hint">支持 JPG、PNG、WebP 格式</div>
-                        <div class="upload-preview" id="uploadPreview">
-                            <img class="preview-thumb" id="previewThumb" src="" alt="预览">
-                            <div><div class="file-name" id="fileName"></div></div>
+            <!-- Generate Mode Controls -->
+            <div id="generateControls">
+                <div class="controls-grid">
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>选择图片</label>
+                        <div class="upload-zone" id="uploadZone">
+                            <input type="file" id="upload" accept="image/*">
+                            <div class="upload-icon">🖼️</div>
+                            <div class="upload-text">点击上传或将图片拖拽到此处</div>
+                            <div class="upload-hint">支持 JPG、PNG、WebP 格式</div>
+                            <div class="upload-preview" id="uploadPreview">
+                                <img class="preview-thumb" id="previewThumb" src="" alt="预览">
+                                <div><div class="file-name" id="fileName"></div></div>
+                            </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label>拼豆品牌</label>
+                        <select class="form-select" id="paletteSelect"><option value="mard">MARD</option></select>
+                        <div class="palette-preview" id="palettePreview"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>网格精度</label>
+                        <input type="number" class="form-input" id="gridSize" value="50" min="10" max="200">
+                        <div style="font-size: 0.75rem; color: hsl(var(--text-muted)); margin-top: 4px;">范围：10 - 200</div>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1; display: flex; justify-content: center;">
+                        <button class="btn-generate" id="generateBtn" onclick="handleGenerate()"><span>⚡</span> 生成图纸</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>拼豆品牌</label>
-                    <select class="form-select" id="paletteSelect"><option value="mard">MARD</option></select>
-                    <div class="palette-preview" id="palettePreview"></div>
-                </div>
-                <div class="form-group">
-                    <label>网格精度</label>
-                    <input type="number" class="form-input" id="gridSize" value="50" min="10" max="200">
-                    <div style="font-size: 0.75rem; color: hsl(var(--text-muted)); margin-top: 4px;">范围：10 - 200</div>
-                </div>
-                <div class="form-group" style="grid-column: 1 / -1; display: flex; justify-content: center;">
-                    <button class="btn-generate" id="generateBtn" onclick="handleGenerate()"><span>⚡</span> 生成图纸</button>
+            </div>
+
+            <!-- Draw Mode Controls -->
+            <div id="drawControls" style="display:none;">
+                <div class="controls-grid">
+                    <div class="form-group">
+                        <label>拼豆品牌</label>
+                        <select class="form-select" id="drawPaletteSelect"><option value="mard">MARD</option></select>
+                        <div class="palette-preview" id="drawPalettePreview"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>网格精度</label>
+                        <input type="number" class="form-input" id="drawGridSize" value="50" min="10" max="200">
+                        <div style="font-size: 0.75rem; color: hsl(var(--text-muted)); margin-top: 4px;">范围：10 - 200</div>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1; display: flex; justify-content: center;">
+                        <button class="btn-generate" id="newCanvasBtn" onclick="handleNewCanvas()"><span>🎨</span> 新建画布</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="main-content" id="mainContent">
+
+        <div class="main-content visible" id="mainContent">
             <div class="canvas-card">
                 <div class="canvas-header">
-                    <div class="canvas-title">📐 图纸预览</div>
+                    <div class="canvas-title" id="canvasTitle">📐 图纸预览</div>
                     <div class="canvas-info" id="canvasInfo"></div>
                 </div>
+
+                <!-- Edit Toolbar (generate mode) -->
+                <div class="toolbar" id="editToolbar">
+                    <div class="toolbar-group">
+                        <button class="tool-btn active" id="toolView" onclick="setEditTool('view')">👁 查看</button>
+                        <button class="tool-btn" id="toolEdit" onclick="setEditTool('edit')">✏️ 编辑</button>
+                        <button class="tool-btn" id="toolSelect" onclick="setEditTool('select')">⬚ 框选</button>
+                    </div>
+                    <div class="toolbar-sep"></div>
+                    <div class="toolbar-group">
+                        <button class="tool-btn" id="undoBtn" onclick="doUndo()" disabled>↩ 撤销</button>
+                        <button class="tool-btn" id="redoBtn" onclick="doRedo()" disabled>↪ 重做</button>
+                    </div>
+                    <div class="toolbar-sep" id="selectToolbarSep" style="display:none;"></div>
+                    <div class="toolbar-group" id="selectToolbar" style="display:none;">
+                        <label style="font-size:0.8rem;font-weight:600;color:hsl(var(--text-secondary));">替换颜色:</label>
+                        <input type="color" class="color-picker-inline" id="selectColorPicker" value="#ff0000">
+                        <button class="tool-btn" onclick="applySelectionReplace()">应用替换</button>
+                        <button class="tool-btn" onclick="clearSelection()">取消框选</button>
+                    </div>
+                </div>
+
+                <!-- Draw Toolbar (draw mode) -->
+                <div class="toolbar" id="drawToolbar">
+                    <div class="toolbar-group">
+                        <button class="tool-btn active" id="toolBrush" onclick="setDrawTool('brush')">🖌 画笔</button>
+                        <button class="tool-btn" id="toolEraser" onclick="setDrawTool('eraser')">🧹 橡皮擦</button>
+                        <button class="tool-btn" id="toolFill" onclick="setDrawTool('fill')">🪣 填充</button>
+                    </div>
+                    <div class="toolbar-sep"></div>
+                    <div class="toolbar-group">
+                        <label style="font-size:0.8rem;font-weight:600;color:hsl(var(--text-secondary));">形状:</label>
+                        <select class="tool-select" id="shapeSelect" onchange="setDrawTool('shape')">
+                            <option value="">无</option>
+                            <option value="line">直线</option>
+                            <option value="rect">矩形</option>
+                            <option value="circle">圆形</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-sep"></div>
+                    <div class="toolbar-group">
+                        <label style="font-size:0.8rem;font-weight:600;color:hsl(var(--text-secondary));">颜色:</label>
+                        <input type="color" class="color-picker-inline" id="drawColorPicker" value="#ff0000">
+                    </div>
+                    <div class="toolbar-sep"></div>
+                    <div class="toolbar-group">
+                        <button class="tool-btn" id="drawUndoBtn" onclick="doUndo()" disabled>↩ 撤销</button>
+                        <button class="tool-btn" id="drawRedoBtn" onclick="doRedo()" disabled>↪ 重做</button>
+                    </div>
+                    <div class="toolbar-sep"></div>
+                    <div class="toolbar-group">
+                        <button class="tool-btn" onclick="handleClearCanvas()">🗑 清空画布</button>
+                    </div>
+                </div>
+
                 <div class="canvas-wrapper" id="canvasWrapper">
                     <div class="canvas-empty" id="canvasEmpty">
                         <div class="canvas-empty-icon">🎨</div>
-                        <div>上传图片并点击「生成图纸」</div>
-                        <div style="font-size: 0.8rem; margin-top: 4px;">图纸将在这里显示</div>
+                        <div id="canvasEmptyText">上传图片并点击「生成图纸」</div>
+                        <div style="font-size: 0.8rem; margin-top: 4px;" id="canvasEmptyHint">图纸将在这里显示</div>
                     </div>
                     <canvas id="canvas"></canvas>
+                    <div class="selection-overlay" id="selectionOverlay"></div>
+                    <div class="color-picker-popup" id="colorPickerPopup">
+                        <div class="color-picker-popup-header">选择颜色</div>
+                        <div class="color-picker-grid" id="colorPickerGrid"></div>
+                    </div>
                 </div>
             </div>
             <div class="stats-card">
@@ -176,7 +303,7 @@
                     <button class="stats-sort-btn" data-sort="name" onclick="sortStats('name', this)">按名称</button>
                 </div>
                 <div class="stats-list" id="statsList"></div>
-                <div class="stats-empty" id="statsEmpty" style="display:none;"><div class="stats-empty-icon">📊</div><div>生成图纸后显示颜色统计</div></div>
+                <div class="stats-empty" id="statsEmpty"><div class="stats-empty-icon">📊</div><div>生成图纸或绘制后显示颜色统计</div></div>
                 <div class="stats-footer" id="statsFooter">
                     <div class="stats-total"><span>总计</span><span class="stats-total-count" id="totalCount">0 颗</span></div>
                     <button class="btn-copy" onclick="copyStats()">📋 复制统计清单</button>
@@ -185,19 +312,1059 @@
         </div>
     </div>
     <div class="toast" id="toast"></div>
-    <script src="palettes.js"></script>
     <script>
+// ==================== Palettes Data (inlined from palettes.js) ====================
+window.allPalettes = new Map();
+window.allPalettes.set("mard",
+    [
+        { name: 'A1', color: '#ffeea9' },
+        { name: 'A2', color: '#ffffcc' },
+        { name: 'A3', color: '#fffa6b' },
+        { name: 'A4', color: '#ffea00' },
+        { name: 'A5', color: '#ffcc00' },
+        { name: 'A6', color: '#ffa800' },
+        { name: 'A7', color: '#ff6c00' },
+        { name: 'A8', color: '#e8d500' },
+        { name: 'A9', color: '#ff9668' },
+        { name: 'A11', color: '#ffc580' },
+        { name: 'A12', color: '#ffa983' },
+        { name: 'A16', color: '#feff8e' },
+        { name: 'A17', color: '#ffcf4f' },
+        { name: 'A18', color: '#ffa274' },
+        { name: 'A19', color: '#ff7c6e' },
+        { name: 'B1', color: '#d6e80d' },
+        { name: 'B2', color: '#9be113' },
+        { name: 'B3', color: '#66ff8a' },
+        { name: 'B4', color: '#51ff51' },
+        { name: 'B5', color: '#05c900' },
+        { name: 'B6', color: '#1df2a4' },
+        { name: 'B7', color: '#2ed296' },
+        { name: 'B8', color: '#009b3a' },
+        { name: 'B9', color: '#0f4e01' },
+        { name: 'B10', color: '#81ffe3' },
+        { name: 'B11', color: '#627844' },
+        { name: 'B12', color: '#008753' },
+        { name: 'B13', color: '#c7ff85' },
+        { name: 'B14', color: '#b4ff24' },
+        { name: 'B15', color: '#136500' },
+        { name: 'B16', color: '#ccffaa' },
+        { name: 'B17', color: '#97d308' },
+        { name: 'B18', color: '#caed51' },
+        { name: 'B19', color: '#00d0a1' },
+        { name: 'B20', color: '#c4ffd7' },
+        { name: 'B21', color: '#157c74' },
+        { name: 'B22', color: '#055352' },
+        { name: 'B23', color: '#32451d' },
+        { name: 'B24', color: '#e4fb9f' },
+        { name: 'C1', color: '#d3ffd4' },
+        { name: 'C2', color: '#abfffa' },
+        { name: 'C3', color: '#9eeeff' },
+        { name: 'C4', color: '#74d9ff' },
+        { name: 'C5', color: '#00b3ce' },
+        { name: 'C6', color: '#0dace0' },
+        { name: 'C7', color: '#068ce9' },
+        { name: 'C8', color: '#1b70ef' },
+        { name: 'C9', color: '#3544d5' },
+        { name: 'C10', color: '#00cec7' },
+        { name: 'C11', color: '#00c4d0' },
+        { name: 'C12', color: '#1a3758' },
+        { name: 'C13', color: '#b4e4ff' },
+        { name: 'C14', color: '#e0fff9' },
+        { name: 'C15', color: '#00cbd2' },
+        { name: 'C16', color: '#3970ae' },
+        { name: 'C17', color: '#4ad2e2' },
+        { name: 'C18', color: '#0d3d46' },
+        { name: 'C19', color: '#008f9c' },
+        { name: 'C20', color: '#008ead' },
+        { name: 'C21', color: '#b1ddff' },
+        { name: 'D1', color: '#9ebaf9' },
+        { name: 'D2', color: '#7e9bdd' },
+        { name: 'D3', color: '#0f50b0' },
+        { name: 'D4', color: '#123178' },
+        { name: 'D5', color: '#bb26b6' },
+        { name: 'D6', color: '#aa76e4' },
+        { name: 'D7', color: '#7927ce' },
+        { name: 'D8', color: '#e0cdff' },
+        { name: 'D9', color: '#ddcdff' },
+        { name: 'D10', color: '#30143f' },
+        { name: 'D11', color: '#bac3fb' },
+        { name: 'D12', color: '#da8ad9' },
+        { name: 'D13', color: '#cc3cb6' },
+        { name: 'D14', color: '#8e1caf' },
+        { name: 'D15', color: '#360ea6' },
+        { name: 'D16', color: '#cedaff' },
+        { name: 'D17', color: '#acc9f6' },
+        { name: 'D18', color: '#be5bf1' },
+        { name: 'D19', color: '#e8cbfa' },
+        { name: 'D20', color: '#c135df' },
+        { name: 'D21', color: '#9810a0' },
+        { name: 'D22', color: '#362b84' },
+        { name: 'D23', color: '#e8dcff' },
+        { name: 'E1', color: '#ffbdb0' },
+        { name: 'E2', color: '#ffc7f4' },
+        { name: 'E3', color: '#ff8cb2' },
+        { name: 'E4', color: '#f55793' },
+        { name: 'E5', color: '#ff48a2' },
+        { name: 'E6', color: '#ff3e79' },
+        { name: 'E7', color: '#cd0656' },
+        { name: 'E8', color: '#ffdaed' },
+        { name: 'E9', color: '#ff61b7' },
+        { name: 'E10', color: '#f12895' },
+        { name: 'E11', color: '#ffd4c4' },
+        { name: 'E12', color: '#ffa0cf' },
+        { name: 'E13', color: '#c53784' },
+        { name: 'E14', color: '#ffc6b0' },
+        { name: 'E15', color: '#edc4c4' },
+        { name: 'E16', color: '#ffe4d9' },
+        { name: 'E17', color: '#ffd9ee' },
+        { name: 'E18', color: '#ffbdcb' },
+        { name: 'E19', color: '#ffbde1' },
+        { name: 'F3', color: '#ff412d' },
+        { name: 'F4', color: '#ff5858' },
+        { name: 'F5', color: '#ff0000' },
+        { name: 'F6', color: '#b53710' },
+        { name: 'F7', color: '#801717' },
+        { name: 'F8', color: '#d50000' },
+        { name: 'F9', color: '#ff9191' },
+        { name: 'F10', color: '#8c420c' },
+        { name: 'F11', color: '#5c3c1f' },
+        { name: 'F13', color: '#cd5437' },
+        { name: 'F14', color: '#ffab95' },
+        { name: 'F15', color: '#e70000' },
+        { name: 'F16', color: '#ffcab8' },
+        { name: 'G1', color: '#ffcc8f' },
+        { name: 'G2', color: '#ffcaa6' },
+        { name: 'G3', color: '#ffc47e' },
+        { name: 'G4', color: '#d2a87e' },
+        { name: 'G5', color: '#f3985b' },
+        { name: 'G6', color: '#d78d56' },
+        { name: 'G7', color: '#8a664b' },
+        { name: 'G8', color: '#624c3c' },
+        { name: 'G9', color: '#ddbb72' },
+        { name: 'G10', color: '#c7a34e' },
+        { name: 'G11', color: '#d9bf82' },
+        { name: 'G12', color: '#d6c375' },
+        { name: 'G13', color: '#b28744' },
+        { name: 'G14', color: '#885930' },
+        { name: 'G15', color: '#fff5dc' },
+        { name: 'G16', color: '#ffe3c3' },
+        { name: 'G17', color: '#5d5249' },
+        { name: 'G18', color: '#ffe1c9' },
+        { name: 'G19', color: '#d49d4e' },
+        { name: 'G20', color: '#aa652e' },
+        { name: 'H2', color: '#ffffff' },
+        { name: 'H3', color: '#aeaeae' },
+        { name: 'H4', color: '#807b81' },
+        { name: 'H5', color: '#605c60' },
+        { name: 'H6', color: '#423d43' },
+        { name: 'H7', color: '#000000' },
+        { name: 'H8', color: '#e9d5e1' },
+        { name: 'H9', color: '#d8e1dc' },
+        { name: 'H10', color: '#dfdfdf' },
+        { name: 'H11', color: '#c2c2c2' },
+        { name: 'H12', color: '#fff2e2' },
+        { name: 'H13', color: '#e6d3b8' },
+        { name: 'H14', color: '#d0d0d0' },
+        { name: 'H15', color: '#a9b9b9' },
+        { name: 'H17', color: '#f4f4f4' },
+        { name: 'H18', color: '#fff8e1' },
+        { name: 'H19', color: '#fcf0c7' },
+        { name: 'M1', color: '#d2dac8' },
+        { name: 'M2', color: '#8fb085' },
+        { name: 'M3', color: '#628780' },
+        { name: 'M4', color: '#deccbd' },
+        { name: 'M5', color: '#d1c9a9' },
+        { name: 'M6', color: '#bebd88' },
+        { name: 'M7', color: '#c9ac94' },
+        { name: 'M8', color: '#ac8f92' },
+        { name: 'M9', color: '#b5a88b' },
+        { name: 'M10', color: '#c7a9b7' },
+        { name: 'M11', color: '#a680a3' },
+        { name: 'M12', color: '#635040' },
+        { name: 'M13', color: '#cda98a' },
+        { name: 'M14', color: '#b77859' },
+        { name: 'M15', color: '#7f7f7f' },
+    ]
+);
+window.allPalettes.set("hama",
+    [
+        { name: 'H01', color: '#eceded' },
+        { name: 'H02', color: '#f0e8b9' },
+        { name: 'H03', color: '#f0b901' },
+        { name: 'H04', color: '#e64f27' },
+        { name: 'H05', color: '#b63136' },
+        { name: 'H06', color: '#e1889f' },
+        { name: 'H07', color: '#694a82' },
+        { name: 'H08', color: '#2c4690' },
+        { name: 'H09', color: '#305cb0' },
+        { name: 'H10', color: '#256847' },
+        { name: 'H11', color: '#49ae89' },
+        { name: 'H12', color: '#534137' },
+        { name: 'H13', color: '#c02435' },
+        { name: 'H16', color: '#37b876' },
+        { name: 'H17', color: '#83888a' },
+        { name: 'H18', color: '#2e2f31' },
+        { name: 'H19', color: '#d8d2ce' },
+        { name: 'H20', color: '#7f332a' },
+        { name: 'H21', color: '#a5693f' },
+        { name: 'H22', color: '#a52d36' },
+        { name: 'H24', color: '#683e9a' },
+        { name: 'H25', color: '#87593d' },
+        { name: 'H26', color: '#de9b90' },
+        { name: 'H27', color: '#deb48b' },
+        { name: 'H28', color: '#363f38' },
+        { name: 'H29', color: '#b9395e' },
+        { name: 'H30', color: '#592f38' },
+        { name: 'H31', color: '#6797ae' },
+        { name: 'H32', color: '#ff208d' },
+        { name: 'H33', color: '#ff3956' },
+        { name: 'H34', color: '#e5ef13' },
+        { name: 'H35', color: '#ff2833' },
+        { name: 'H36', color: '#2353b0' },
+        { name: 'H37', color: '#06b73c' },
+        { name: 'H38', color: '#fd8600' },
+        { name: 'H39', color: '#f1f21c' },
+        { name: 'H40', color: '#fe630b' },
+        { name: 'H41', color: '#2659b2' },
+        { name: 'H42', color: '#0cbd51' },
+        { name: 'H43', color: '#f0ea37' },
+        { name: 'H44', color: '#ee6972' },
+        { name: 'H45', color: '#886db9' },
+        { name: 'H46', color: '#629ed7' },
+        { name: 'H47', color: '#83cb70' },
+        { name: 'H48', color: '#cf70b7' },
+        { name: 'H49', color: '#4998bc' },
+        { name: 'H60', color: '#f49422' },
+        { name: 'H70', color: '#b4b9bc' },
+        { name: 'H71', color: '#404040' },
+        { name: 'H75', color: '#c8ab93' },
+        { name: 'H76', color: '#8c644b' },
+    ]
+);
+window.allPalettes.set("perler",
+    [
+        { name: 'P01', color: '#f7f7f2' },
+        { name: 'P02', color: '#ede7ba' },
+        { name: 'P03', color: '#f9d737' },
+        { name: 'P04', color: '#ff803e' },
+        { name: 'P05', color: '#c43a44' },
+        { name: 'P06', color: '#e16d9d' },
+        { name: 'P07', color: '#6f5493' },
+        { name: 'P08', color: '#2b307c' },
+        { name: 'P09', color: '#278acb' },
+        { name: 'P10', color: '#108355' },
+        { name: 'P11', color: '#38c7af' },
+        { name: 'P12', color: '#6c524d' },
+        { name: 'P17', color: '#96989c' },
+        { name: 'P18', color: '#343234' },
+        { name: 'P19', color: '#9ea7ae' },
+        { name: 'P20', color: '#a04e3f' },
+        { name: 'P21', color: '#a47b47' },
+        { name: 'P33', color: '#fcc6b8' },
+        { name: 'P35', color: '#cfa889' },
+        { name: 'P38', color: '#f34676' },
+        { name: 'P42', color: '#9d382e' },
+        { name: 'P44', color: '#0c68b3' },
+        { name: 'P45', color: '#00876e' },
+        { name: 'P46', color: '#694184' },
+        { name: 'P47', color: '#bdd200' },
+        { name: 'P48', color: '#ff8d2e' },
+        { name: 'P49', color: '#00ac4a' },
+        { name: 'P50', color: '#f15289' },
+        { name: 'P52', color: '#63a9d6' },
+        { name: 'P53', color: '#73d594' },
+        { name: 'P54', color: '#9582bb' },
+        { name: 'P56', color: '#faee8d' },
+        { name: 'P57', color: '#ffb64e' },
+        { name: 'P58', color: '#b0e8d5' },
+        { name: 'P59', color: '#ff6158' },
+        { name: 'P60', color: '#b25faa' },
+        { name: 'P61', color: '#77ca4a' },
+        { name: 'P62', color: '#008fcc' },
+        { name: 'P63', color: '#ff9e8d' },
+        { name: 'P70', color: '#6c88bf' },
+        { name: 'P72', color: '#56acbe' },
+        { name: 'P73', color: '#ee75a8' },
+        { name: 'P74', color: '#eaaf6f' },
+        { name: 'P75', color: '#afc39d' },
+        { name: 'P79', color: '#f5c0d5' },
+        { name: 'P80', color: '#54b160' },
+        { name: 'P83', color: '#e65794' },
+        { name: 'P85', color: '#b57f45' },
+        { name: 'P86', color: '#ae66b1' },
+        { name: 'P88', color: '#ad3c6c' },
+        { name: 'P89', color: '#2255b7' },
+        { name: 'P90', color: '#e19a52' },
+        { name: 'P91', color: '#00968a' },
+        { name: 'P92', color: '#56575c' },
+        { name: 'P93', color: '#87a7e1' },
+        { name: 'P96', color: '#88404f' },
+        { name: 'P97', color: '#cbd735' },
+        { name: 'P98', color: '#eac49f' },
+        { name: 'P99', color: '#de8f4d' },
+        { name: 'P100', color: '#e99591' },
+        { name: 'P101', color: '#82b9b3' },
+        { name: 'P102', color: '#84b095' },
+        { name: 'P103', color: '#d1c66e' },
+        { name: 'P104', color: '#cca49b' },
+        { name: 'P105', color: '#81898e' },
+        { name: 'P171', color: '#fdeadb' },
+        { name: 'P173', color: '#9baf9e' },
+        { name: 'P176', color: '#d7bb8c' },
+        { name: 'P179', color: '#3c614f' },
+        { name: 'P181', color: '#bec3bf' },
+        { name: 'P182', color: '#b4a6d3' },
+        { name: 'P184', color: '#7cd2f2' },
+        { name: 'P187', color: '#a6a9b1' },
+        { name: 'P188', color: '#559e45' },
+        { name: 'P189', color: '#bab456' },
+        { name: 'P191', color: '#e2587f' },
+        { name: 'P192', color: '#d0dbde' },
+        { name: 'P193', color: '#383737' },
+        { name: 'P199', color: '#009654' },
+        { name: 'P200', color: '#0066b3' },
+        { name: 'P201', color: '#162846' },
+        { name: 'P202', color: '#b4d9df' },
+        { name: 'P203', color: '#ffb5be' },
+        { name: 'P204', color: '#ff777f' },
+        { name: 'P205', color: '#d7b087' },
+        { name: 'P206', color: '#93a19f' },
+        { name: 'P207', color: '#545f5f' },
+        { name: 'P208', color: '#f1e5d8' },
+        { name: 'P961', color: '#ad3345' },
+    ]
+);
+window.allPalettes.set("perler-mini",
+    [
+        { name: 'P01', color: '#f7f7f2' },
+        { name: 'P02', color: '#ede7ba' },
+        { name: 'P03', color: '#f9d737' },
+        { name: 'P04', color: '#ff803e' },
+        { name: 'P05', color: '#c43a44' },
+        { name: 'P06', color: '#e16d9d' },
+        { name: 'P07', color: '#6f5493' },
+        { name: 'P08', color: '#2b307c' },
+        { name: 'P09', color: '#278acb' },
+        { name: 'P10', color: '#108355' },
+        { name: 'P11', color: '#38c7af' },
+        { name: 'P12', color: '#6c524d' },
+        { name: 'P17', color: '#96989c' },
+        { name: 'P18', color: '#343234' },
+        { name: 'P19', color: '#9ea7ae' },
+        { name: 'P20', color: '#a04e3f' },
+        { name: 'P21', color: '#a47b47' },
+        { name: 'P33', color: '#fcc6b8' },
+        { name: 'P35', color: '#cfa889' },
+        { name: 'P52', color: '#63a9d6' },
+        { name: 'P54', color: '#9582bb' },
+        { name: 'P56', color: '#faee8d' },
+        { name: 'P57', color: '#ffb64e' },
+        { name: 'P58', color: '#b0e8d5' },
+        { name: 'P59', color: '#ff6158' },
+        { name: 'P60', color: '#b25faa' },
+        { name: 'P61', color: '#77ca4a' },
+        { name: 'P62', color: '#008fcc' },
+        { name: 'P63', color: '#ff9e8d' },
+        { name: 'P79', color: '#f5c0d5' },
+        { name: 'P80', color: '#54b160' },
+        { name: 'P83', color: '#e65794' },
+        { name: 'P88', color: '#ad3c6c' },
+        { name: 'P90', color: '#e19a52' },
+        { name: 'P91', color: '#00968a' },
+        { name: 'P92', color: '#56575c' },
+        { name: 'P93', color: '#87a7e1' },
+        { name: 'P96', color: '#88404f' },
+        { name: 'P97', color: '#cbd735' },
+        { name: 'P98', color: '#eac49f' },
+        { name: 'P179', color: '#3c614f' },
+        { name: 'P181', color: '#bec3bf' },
+    ]
+);
+window.allPalettes.set("nabbi",
+    [
+        { name: 'N01', color: '#3a3d41' },
+        { name: 'N02', color: '#50443b' },
+        { name: 'N03', color: '#5a3e36' },
+        { name: 'N04', color: '#813547' },
+        { name: 'N05', color: '#a76224' },
+        { name: 'N06', color: '#ad967e' },
+        { name: 'N07', color: '#eeb182' },
+        { name: 'N08', color: '#8d8b7f' },
+        { name: 'N09', color: '#2f4a39' },
+        { name: 'N10', color: '#d3cbcb' },
+        { name: 'N11', color: '#644591' },
+        { name: 'N12', color: '#e2d0bf' },
+        { name: 'N13', color: '#f3601b' },
+        { name: 'N14', color: '#f9ca00' },
+        { name: 'N15', color: '#f4f4f3' },
+        { name: 'N16', color: '#297a3b' },
+        { name: 'N17', color: '#3b75cb' },
+        { name: 'N18', color: '#e1b4ab' },
+        { name: 'N19', color: '#df2638' },
+        { name: 'N20', color: '#b58b69' },
+        { name: 'N21', color: '#f5ec8d' },
+        { name: 'N22', color: '#48af4f' },
+        { name: 'N23', color: '#71a3e6' },
+        { name: 'N24', color: '#b6a0db' },
+        { name: 'N25', color: '#ee6a97' },
+        { name: 'N26', color: '#fca879' },
+        { name: 'N27', color: '#875f52' },
+        { name: 'N28', color: '#a7c6f1' },
+        { name: 'N29', color: '#ee9527' },
+        { name: 'N30', color: '#c7bf5e' },
+    ]
+);
+window.allPalettes.set("artkal-s",
+    [
+        { name: 'S01', color: '#ffffff' },
+        { name: 'S02', color: '#ffa38b' },
+        { name: 'S03', color: '#f6b04c' },
+        { name: 'S04', color: '#ff671f' },
+        { name: 'S05', color: '#e10600' },
+        { name: 'S06', color: '#ec86d0' },
+        { name: 'S07', color: '#9b9b9b' },
+        { name: 'S08', color: '#24de5b' },
+        { name: 'S09', color: '#00685e' },
+        { name: 'S10', color: '#41b6e6' },
+        { name: 'S11', color: '#003399' },
+        { name: 'S12', color: '#a05eb5' },
+        { name: 'S13', color: '#000000' },
+        { name: 'S14', color: '#fae053' },
+        { name: 'S15', color: '#7a3e2c' },
+        { name: 'S16', color: '#5c4738' },
+        { name: 'S17', color: '#7b4d35' },
+        { name: 'S18', color: '#cc9966' },
+        { name: 'S19', color: '#fcbfa9' },
+        { name: 'S20', color: '#249e6b' },
+        { name: 'S21', color: '#87d839' },
+        { name: 'S22', color: '#330072' },
+        { name: 'S23', color: '#64359b' },
+        { name: 'S24', color: '#147bd1' },
+        { name: 'S25', color: '#ff34b3' },
+        { name: 'S26', color: '#db2152' },
+        { name: 'S27', color: '#ffd100' },
+        { name: 'S28', color: '#eab8e4' },
+        { name: 'S29', color: '#f6eb61' },
+        { name: 'S30', color: '#99d6ea' },
+        { name: 'S31', color: '#9ee5b0' },
+        { name: 'S32', color: '#ffe780' },
+        { name: 'S33', color: '#c5b4e3' },
+        { name: 'S34', color: '#ba0c2f' },
+        { name: 'S35', color: '#f7ced7' },
+        { name: 'S36', color: '#c9809e' },
+        { name: 'S37', color: '#71d8bf' },
+        { name: 'S38', color: '#ab2556' },
+        { name: 'S39', color: '#ed8b00' },
+        { name: 'S40', color: '#f1a7dc' },
+        { name: 'S41', color: '#9a5516' },
+        { name: 'S42', color: '#a09f9d' },
+        { name: 'S43', color: '#767777' },
+        { name: 'S44', color: '#aadceb' },
+        { name: 'S45', color: '#00b2a9' },
+        { name: 'S46', color: '#73d33c' },
+        { name: 'S47', color: '#b47e00' },
+        { name: 'S48', color: '#ffc72c' },
+        { name: 'S49', color: '#72195f' },
+        { name: 'S50', color: '#faaa8d' },
+        { name: 'S51', color: '#fcfbcd' },
+        { name: 'S52', color: '#f2f0a1' },
+        { name: 'S53', color: '#69b3e7' },
+        { name: 'S54', color: '#0090da' },
+        { name: 'S55', color: '#addc91' },
+        { name: 'S56', color: '#ff6a13' },
+        { name: 'S57', color: '#a4493d' },
+        { name: 'S58', color: '#a50034' },
+        { name: 'S59', color: '#4a1f87' },
+        { name: 'S60', color: '#a77bca' },
+        { name: 'S61', color: '#cedc00' },
+        { name: 'S62', color: '#007c58' },
+        { name: 'S63', color: '#585735' },
+        { name: 'S64', color: '#050849' },
+        { name: 'S65', color: '#f3ea5d' },
+        { name: 'S66', color: '#f4633a' },
+        { name: 'S67', color: '#f3cfb3' },
+        { name: 'S68', color: '#e1c078' },
+        { name: 'S69', color: '#23282b' },
+        { name: 'S70', color: '#9bbc11' },
+        { name: 'S71', color: '#00852b' },
+        { name: 'S72', color: '#59d5d8' },
+        { name: 'S73', color: '#48a9c5' },
+        { name: 'S74', color: '#00aed6' },
+        { name: 'S75', color: '#0085ad' },
+        { name: 'S76', color: '#00aec7' },
+        { name: 'S77', color: '#efefef' },
+        { name: 'S78', color: '#d1d1d1' },
+        { name: 'S79', color: '#bbbcbc' },
+        { name: 'S80', color: '#999b30' },
+        { name: 'S81', color: '#cdb277' },
+        { name: 'S82', color: '#b58150' },
+        { name: 'S83', color: '#b86125' },
+        { name: 'S84', color: '#aa5761' },
+        { name: 'S85', color: '#5c131b' },
+        { name: 'S86', color: '#eaaa00' },
+        { name: 'S87', color: '#ff6d6a' },
+        { name: 'S88', color: '#da1884' },
+        { name: 'S89', color: '#484949' },
+        { name: 'S90', color: '#ffc56e' },
+        { name: 'S91', color: '#183028' },
+        { name: 'S92', color: '#deb947' },
+        { name: 'S93', color: '#dab698' },
+        { name: 'S94', color: '#f4a999' },
+        { name: 'S95', color: '#ee7d67' },
+        { name: 'S96', color: '#f08661' },
+        { name: 'S97', color: '#d4722a' },
+        { name: 'S98', color: '#64acdf' },
+        { name: 'S99', color: '#64c2dc' },
+        { name: 'S100', color: '#4f9fb3' },
+        { name: 'S101', color: '#3196dd' },
+        { name: 'S102', color: '#1b6cb6' },
+        { name: 'S103', color: '#083980' },
+        { name: 'S104', color: '#0a668b' },
+        { name: 'S105', color: '#085b6e' },
+        { name: 'S106', color: '#004e78' },
+        { name: 'S107', color: '#005574' },
+        { name: 'S108', color: '#ccbe80' },
+        { name: 'S109', color: '#a49350' },
+        { name: 'S110', color: '#9e883c' },
+        { name: 'S111', color: '#766c2b' },
+        { name: 'S112', color: '#795f26' },
+        { name: 'S113', color: '#bab8a2' },
+        { name: 'S114', color: '#728c54' },
+        { name: 'S115', color: '#7e7c44' },
+        { name: 'S116', color: '#64692e' },
+        { name: 'S117', color: '#4e582c' },
+        { name: 'S118', color: '#4a5e2d' },
+        { name: 'S119', color: '#71c4b6' },
+        { name: 'S120', color: '#66cc99' },
+        { name: 'S121', color: '#569a83' },
+        { name: 'S122', color: '#14a45b' },
+        { name: 'S123', color: '#18a818' },
+        { name: 'S124', color: '#04552e' },
+        { name: 'S125', color: '#136b5a' },
+        { name: 'S126', color: '#054641' },
+        { name: 'S127', color: '#d9b6d6' },
+        { name: 'S128', color: '#ad62a4' },
+        { name: 'S129', color: '#e68ca3' },
+        { name: 'S130', color: '#de5479' },
+        { name: 'S131', color: '#9e82ba' },
+        { name: 'S132', color: '#e8416b' },
+        { name: 'S133', color: '#b7388f' },
+        { name: 'S134', color: '#581f7e' },
+        { name: 'S135', color: '#8ca3d4' },
+        { name: 'S136', color: '#9a9acc' },
+        { name: 'S137', color: '#5981c1' },
+        { name: 'S138', color: '#4166b0' },
+        { name: 'S139', color: '#475fab' },
+        { name: 'S140', color: '#374593' },
+        { name: 'S141', color: '#3d56a5' },
+        { name: 'S142', color: '#294299' },
+        { name: 'S143', color: '#25268a' },
+        { name: 'S144', color: '#1a2f6f' },
+        { name: 'S145', color: '#d3c95d' },
+        { name: 'S146', color: '#510918' },
+        { name: 'S147', color: '#64b39e' },
+        { name: 'S148', color: '#634338' },
+        { name: 'S149', color: '#edd39e' },
+        { name: 'S150', color: '#6963ab' },
+        { name: 'S151', color: '#2b3f1f' },
+        { name: 'S152', color: '#9791c5' },
+        { name: 'S153', color: '#b8bde0' },
+        { name: 'S154', color: '#f9c898' },
+        { name: 'S155', color: '#c39069' },
+        { name: 'S156', color: '#44505b' },
+        { name: 'S157', color: '#3e4955' },
+        { name: 'S158', color: '#202830' },
+        { name: 'S159', color: '#888b8d' },
+        { name: 'ST1', color: '#c7bcb8' },
+        { name: 'ST2', color: '#f95498' },
+        { name: 'ST3', color: '#ff7c45' },
+        { name: 'ST4', color: '#dadf3d' },
+        { name: 'ST5', color: '#0fae58' },
+        { name: 'ST6', color: '#8477b3' },
+        { name: 'SL1', color: '#3687b2' },
+        { name: 'SL2', color: '#117c52' },
+        { name: 'SL3', color: '#c22933' },
+        { name: 'SL4', color: '#cdbd00' },
+        { name: 'SL5', color: '#7e549d' },
+        { name: 'SP1', color: '#93ca87' },
+        { name: 'SP2', color: '#fe7f54' },
+        { name: 'SP3', color: '#f0a149' },
+        { name: 'SP4', color: '#dc9ea9' },
+        { name: 'SP5', color: '#d63c53' },
+        { name: 'SP6', color: '#2c4e97' },
+        { name: 'SP7', color: '#64427e' },
+        { name: 'SP8', color: '#e0dbca' },
+        { name: 'SG1', color: '#c6c0b4' },
+        { name: 'SG2', color: '#dfabbc' },
+        { name: 'SG3', color: '#6fadc1' },
+        { name: 'SN1', color: '#ff7405' },
+        { name: 'SN2', color: '#01c63e' },
+        { name: 'SN3', color: '#f2f33c' },
+        { name: 'SN4', color: '#ff477a' },
+    ]
+);
+window.allPalettes.set("artkal-r",
+    [
+        { name: 'R01', color: '#ffffff' },
+        { name: 'R02', color: '#ffa38b' },
+        { name: 'R03', color: '#f6b04c' },
+        { name: 'R04', color: '#ff671f' },
+        { name: 'R05', color: '#e10600' },
+        { name: 'R06', color: '#ec86d0' },
+        { name: 'R07', color: '#9b9b9b' },
+        { name: 'R08', color: '#24de5b' },
+        { name: 'R09', color: '#00685e' },
+        { name: 'R10', color: '#41b6e6' },
+        { name: 'R11', color: '#003399' },
+        { name: 'R12', color: '#a05eb5' },
+        { name: 'R13', color: '#000000' },
+        { name: 'R14', color: '#fae053' },
+        { name: 'R15', color: '#7a3e2c' },
+        { name: 'R16', color: '#5c4738' },
+        { name: 'R17', color: '#7b4d35' },
+        { name: 'R18', color: '#cc9966' },
+        { name: 'R19', color: '#fcbfa9' },
+        { name: 'R20', color: '#249e6b' },
+        { name: 'R21', color: '#87d839' },
+        { name: 'R22', color: '#330072' },
+        { name: 'R23', color: '#64359b' },
+        { name: 'R24', color: '#147bd1' },
+        { name: 'R25', color: '#ff34b3' },
+        { name: 'R26', color: '#db2152' },
+        { name: 'R27', color: '#ffd100' },
+        { name: 'R28', color: '#eab8e4' },
+        { name: 'R29', color: '#f6eb61' },
+        { name: 'R30', color: '#99d6ea' },
+        { name: 'R31', color: '#9ee5b0' },
+        { name: 'R32', color: '#ffe780' },
+        { name: 'R33', color: '#c5b4e3' },
+        { name: 'R34', color: '#ba0c2f' },
+        { name: 'R35', color: '#f7ced7' },
+        { name: 'R36', color: '#c9809e' },
+        { name: 'R37', color: '#71d8bf' },
+        { name: 'R38', color: '#ab2556' },
+        { name: 'R39', color: '#ed8b00' },
+        { name: 'R40', color: '#f1a7dc' },
+        { name: 'R41', color: '#9a5516' },
+        { name: 'R42', color: '#a09f9d' },
+        { name: 'R43', color: '#767777' },
+        { name: 'R44', color: '#aadceb' },
+        { name: 'R45', color: '#00b2a9' },
+        { name: 'R46', color: '#73d33c' },
+        { name: 'R47', color: '#b47e00' },
+        { name: 'R48', color: '#ffc72c' },
+        { name: 'R49', color: '#72195f' },
+        { name: 'R50', color: '#faaa8d' },
+        { name: 'R51', color: '#fcfbcd' },
+        { name: 'R52', color: '#f2f0a1' },
+        { name: 'R53', color: '#69b3e7' },
+        { name: 'R54', color: '#0090da' },
+        { name: 'R55', color: '#050849' },
+        { name: 'R56', color: '#5ddb5d' },
+        { name: 'R57', color: '#addc91' },
+        { name: 'R58', color: '#f3ea5d' },
+        { name: 'R59', color: '#ff6a13' },
+        { name: 'R60', color: '#f4633a' },
+        { name: 'R61', color: '#f3cfb3' },
+        { name: 'R62', color: '#531a23' },
+        { name: 'R63', color: '#a4493d' },
+        { name: 'R64', color: '#a50034' },
+        { name: 'R65', color: '#bc0423' },
+        { name: 'R66', color: '#a77bca' },
+        { name: 'R67', color: '#fcc047' },
+        { name: 'R68', color: '#cedc00' },
+        { name: 'R69', color: '#007c58' },
+        { name: 'R70', color: '#585735' },
+        { name: 'R71', color: '#e1c078' },
+        { name: 'R72', color: '#23282b' },
+        { name: 'R73', color: '#00852b' },
+        { name: 'R74', color: '#59d5d8' },
+        { name: 'R75', color: '#00aed6' },
+        { name: 'R76', color: '#00aec7' },
+        { name: 'R77', color: '#efefef' },
+        { name: 'R78', color: '#d1d1d1' },
+        { name: 'R79', color: '#bbbcbc' },
+        { name: 'R80', color: '#ffc56e' },
+        { name: 'R81', color: '#cdb277' },
+        { name: 'R82', color: '#b58150' },
+        { name: 'R83', color: '#b86125' },
+        { name: 'R84', color: '#aa5761' },
+        { name: 'R85', color: '#5c131b' },
+        { name: 'R86', color: '#eaaa00' },
+        { name: 'R87', color: '#ff6d6a' },
+        { name: 'R88', color: '#484949' },
+        { name: 'R89', color: '#9bbc11' },
+        { name: 'R90', color: '#999b30' },
+        { name: 'R91', color: '#48a9c5' },
+        { name: 'R92', color: '#0085ad' },
+        { name: 'R93', color: '#183028' },
+    ]
+);
+window.allPalettes.set("artkal-c",
+    [
+        { name: 'C01', color: '#ffffff' },
+        { name: 'C02', color: '#000000' },
+        { name: 'C03', color: '#f6b04c' },
+        { name: 'C04', color: '#ed8b00' },
+        { name: 'C05', color: '#e10600' },
+        { name: 'C06', color: '#ba0c2f' },
+        { name: 'C07', color: '#f1a7dc' },
+        { name: 'C08', color: '#ff34b3' },
+        { name: 'C09', color: '#db2152' },
+        { name: 'C10', color: '#f2f0a1' },
+        { name: 'C11', color: '#ffd100' },
+        { name: 'C12', color: '#addc91' },
+        { name: 'C13', color: '#87d839' },
+        { name: 'C14', color: '#249e6b' },
+        { name: 'C15', color: '#007c58' },
+        { name: 'C16', color: '#ff6a13' },
+        { name: 'C17', color: '#ff671f' },
+        { name: 'C18', color: '#aadceb' },
+        { name: 'C19', color: '#41b6e6' },
+        { name: 'C20', color: '#0090da' },
+        { name: 'C21', color: '#003399' },
+        { name: 'C22', color: '#fcbfa9' },
+        { name: 'C23', color: '#cc9966' },
+        { name: 'C24', color: '#ffe780' },
+        { name: 'C25', color: '#a77bca' },
+        { name: 'C26', color: '#a05eb5' },
+        { name: 'C27', color: '#330072' },
+        { name: 'C28', color: '#b47e00' },
+        { name: 'C29', color: '#a4493d' },
+        { name: 'C30', color: '#7a3e2c' },
+        { name: 'C31', color: '#7b4d35' },
+        { name: 'C32', color: '#5c4738' },
+        { name: 'C33', color: '#9b9b9b' },
+        { name: 'C34', color: '#767777' },
+        { name: 'C35', color: '#a09f9d' },
+        { name: 'C36', color: '#c9809e' },
+        { name: 'C37', color: '#147bd1' },
+        { name: 'C38', color: '#69b3e7' },
+        { name: 'C39', color: '#99d6ea' },
+        { name: 'C40', color: '#cedc00' },
+        { name: 'C41', color: '#f6eb61' },
+        { name: 'C42', color: '#fae053' },
+        { name: 'C43', color: '#a50034' },
+        { name: 'C44', color: '#ffa38b' },
+        { name: 'C45', color: '#5ddb5d' },
+        { name: 'C46', color: '#f3ea5d' },
+        { name: 'C47', color: '#f3cfb3' },
+        { name: 'C48', color: '#ffc72c' },
+        { name: 'C49', color: '#ec86d0' },
+        { name: 'C50', color: '#c5b4e3' },
+        { name: 'C51', color: '#fcfbcd' },
+        { name: 'C52', color: '#4a1f87' },
+        { name: 'C53', color: '#73d33c' },
+        { name: 'C54', color: '#00b2a9' },
+        { name: 'C55', color: '#6cc24a' },
+        { name: 'C56', color: '#888b8d' },
+        { name: 'C57', color: '#bc0423' },
+        { name: 'C58', color: '#050849' },
+        { name: 'C59', color: '#531a23' },
+        { name: 'C60', color: '#9ee5b0' },
+        { name: 'C61', color: '#f1eb9c' },
+        { name: 'C62', color: '#fc3f3f' },
+        { name: 'C63', color: '#eabedb' },
+        { name: 'C64', color: '#a50050' },
+        { name: 'C65', color: '#ef7e2e' },
+        { name: 'C66', color: '#fc6c85' },
+        { name: 'C67', color: '#b14eb5' },
+        { name: 'C68', color: '#69c2ee' },
+        { name: 'C69', color: '#23282b' },
+        { name: 'C70', color: '#183028' },
+        { name: 'C71', color: '#eaaa00' },
+        { name: 'C72', color: '#ffc56e' },
+        { name: 'C73', color: '#b86125' },
+        { name: 'C74', color: '#cdb277' },
+        { name: 'C75', color: '#b58150' },
+        { name: 'C76', color: '#ff6d6a' },
+        { name: 'C77', color: '#aa5761' },
+        { name: 'C78', color: '#5c131b' },
+        { name: 'C79', color: '#59d5d8' },
+        { name: 'C80', color: '#00aec7' },
+        { name: 'C81', color: '#48a9c5' },
+        { name: 'C82', color: '#00aed6' },
+        { name: 'C83', color: '#0085ad' },
+        { name: 'C84', color: '#9bbc11' },
+        { name: 'C85', color: '#999b30' },
+        { name: 'C86', color: '#00852b' },
+        { name: 'C87', color: '#efefef' },
+        { name: 'C88', color: '#d1d1d1' },
+        { name: 'C89', color: '#bbbcbc' },
+        { name: 'C90', color: '#484949' },
+        { name: 'C91', color: '#deb947' },
+        { name: 'C92', color: '#dab698' },
+        { name: 'C93', color: '#f4a999' },
+        { name: 'C94', color: '#ee7d67' },
+        { name: 'C95', color: '#f08661' },
+        { name: 'C96', color: '#d4722a' },
+        { name: 'C97', color: '#64acdf' },
+        { name: 'C98', color: '#64c2dc' },
+        { name: 'C99', color: '#4f9fb3' },
+        { name: 'C100', color: '#3196dd' },
+        { name: 'C101', color: '#1b6cb6' },
+        { name: 'C102', color: '#083980' },
+        { name: 'C103', color: '#0a668b' },
+        { name: 'C104', color: '#085b6e' },
+        { name: 'C105', color: '#004e78' },
+        { name: 'C106', color: '#005574' },
+        { name: 'C107', color: '#ccbe80' },
+        { name: 'C108', color: '#a49350' },
+        { name: 'C109', color: '#9e883c' },
+        { name: 'C110', color: '#766c2b' },
+        { name: 'C111', color: '#795f26' },
+        { name: 'C112', color: '#bab8a2' },
+        { name: 'C113', color: '#728c54' },
+        { name: 'C114', color: '#7e7c44' },
+        { name: 'C115', color: '#64692e' },
+        { name: 'C116', color: '#4e582c' },
+        { name: 'C117', color: '#4a5e2d' },
+        { name: 'C118', color: '#71c4b6' },
+        { name: 'C119', color: '#66cc99' },
+        { name: 'C120', color: '#569a83' },
+        { name: 'C121', color: '#14a45b' },
+        { name: 'C122', color: '#18a818' },
+        { name: 'C123', color: '#04552e' },
+        { name: 'C124', color: '#136b5a' },
+        { name: 'C125', color: '#054641' },
+        { name: 'C126', color: '#d9b6d6' },
+        { name: 'C127', color: '#ad62a4' },
+        { name: 'C128', color: '#e68ca3' },
+        { name: 'C129', color: '#de5479' },
+        { name: 'C130', color: '#9e82ba' },
+        { name: 'C131', color: '#e8416b' },
+        { name: 'C132', color: '#b7388f' },
+        { name: 'C133', color: '#581f7e' },
+        { name: 'C134', color: '#8ca3d4' },
+        { name: 'C135', color: '#9a9acc' },
+        { name: 'C136', color: '#5981c1' },
+        { name: 'C137', color: '#4166b0' },
+        { name: 'C138', color: '#475fab' },
+        { name: 'C139', color: '#374593' },
+        { name: 'C140', color: '#3d56a5' },
+        { name: 'C141', color: '#294299' },
+        { name: 'C142', color: '#25268a' },
+        { name: 'C143', color: '#1a2f6f' },
+        { name: 'C144', color: '#d3c95d' },
+        { name: 'C145', color: '#510918' },
+        { name: 'C146', color: '#64b39e' },
+        { name: 'C147', color: '#634338' },
+        { name: 'C148', color: '#edd39e' },
+        { name: 'C149', color: '#6963ab' },
+        { name: 'C150', color: '#2b3f1f' },
+        { name: 'C151', color: '#9791c5' },
+        { name: 'C152', color: '#b8bde0' },
+        { name: 'C153', color: '#f9c898' },
+        { name: 'C154', color: '#c39069' },
+        { name: 'C155', color: '#44505b' },
+        { name: 'C156', color: '#3e4955' },
+        { name: 'C157', color: '#202830' },
+    ]
+);
+window.allPalettes.set("artkal-a",
+    [
+        { name: 'A01', color: '#ffffff' },
+        { name: 'A02', color: '#000000' },
+        { name: 'A03', color: '#f6b04c' },
+        { name: 'A04', color: '#ed8b00' },
+        { name: 'A05', color: '#e10600' },
+        { name: 'A06', color: '#ba0c2f' },
+        { name: 'A07', color: '#f1a7dc' },
+        { name: 'A08', color: '#ff34b3' },
+        { name: 'A09', color: '#db2152' },
+        { name: 'A10', color: '#f2f0a1' },
+        { name: 'A11', color: '#ffd100' },
+        { name: 'A12', color: '#addc91' },
+        { name: 'A13', color: '#87d839' },
+        { name: 'A14', color: '#249e6b' },
+        { name: 'A15', color: '#007c58' },
+        { name: 'A16', color: '#ff6a13' },
+        { name: 'A17', color: '#ff671f' },
+        { name: 'A18', color: '#aadceb' },
+        { name: 'A19', color: '#41b6e6' },
+        { name: 'A20', color: '#0090da' },
+        { name: 'A21', color: '#003399' },
+        { name: 'A22', color: '#fcbfa9' },
+        { name: 'A23', color: '#cc9966' },
+        { name: 'A24', color: '#ffe780' },
+        { name: 'A25', color: '#a77bca' },
+        { name: 'A26', color: '#a05eb5' },
+        { name: 'A27', color: '#330072' },
+        { name: 'A28', color: '#b47e00' },
+        { name: 'A29', color: '#a4493d' },
+        { name: 'A30', color: '#7a3e2c' },
+        { name: 'A31', color: '#7b4d35' },
+        { name: 'A32', color: '#5c4738' },
+        { name: 'A33', color: '#9b9b9b' },
+        { name: 'A34', color: '#767777' },
+        { name: 'A35', color: '#a09f9d' },
+        { name: 'A36', color: '#c9809e' },
+        { name: 'A37', color: '#147bd1' },
+        { name: 'A38', color: '#69b3e7' },
+        { name: 'A39', color: '#99d6ea' },
+        { name: 'A40', color: '#cedc00' },
+        { name: 'A41', color: '#f6eb61' },
+        { name: 'A42', color: '#fae053' },
+        { name: 'A43', color: '#a50034' },
+        { name: 'A44', color: '#ffa38b' },
+        { name: 'A45', color: '#5ddb5d' },
+        { name: 'A46', color: '#f3ea5d' },
+        { name: 'A47', color: '#f3cfb3' },
+        { name: 'A48', color: '#ffc72c' },
+        { name: 'A49', color: '#ec86d0' },
+        { name: 'A50', color: '#c5b4e3' },
+        { name: 'A51', color: '#fcfbcd' },
+        { name: 'A52', color: '#4a1f87' },
+        { name: 'A53', color: '#73d33c' },
+        { name: 'A54', color: '#00b2a9' },
+        { name: 'A55', color: '#6cc24a' },
+        { name: 'A56', color: '#888b8d' },
+        { name: 'A57', color: '#bc0423' },
+        { name: 'A58', color: '#050849' },
+        { name: 'A59', color: '#531a23' },
+        { name: 'A60', color: '#9ee5b0' },
+        { name: 'A61', color: '#f1eb9c' },
+        { name: 'A62', color: '#fc3f3f' },
+        { name: 'A63', color: '#eabedb' },
+        { name: 'A64', color: '#a50050' },
+        { name: 'A65', color: '#ef7e2e' },
+        { name: 'A66', color: '#fc6c85' },
+        { name: 'A67', color: '#b14eb5' },
+        { name: 'A68', color: '#69c2ee' },
+        { name: 'A69', color: '#23282b' },
+        { name: 'A70', color: '#183028' },
+        { name: 'A71', color: '#eaaa00' },
+        { name: 'A72', color: '#ffc56e' },
+        { name: 'A73', color: '#b86125' },
+        { name: 'A74', color: '#cdb277' },
+        { name: 'A75', color: '#b58150' },
+        { name: 'A76', color: '#ff6d6a' },
+        { name: 'A77', color: '#aa5761' },
+        { name: 'A78', color: '#5c131b' },
+        { name: 'A79', color: '#59d5d8' },
+        { name: 'A80', color: '#00aec7' },
+        { name: 'A81', color: '#48a9c5' },
+        { name: 'A82', color: '#00aed6' },
+        { name: 'A83', color: '#0085ad' },
+        { name: 'A84', color: '#9bbc11' },
+        { name: 'A85', color: '#999b30' },
+        { name: 'A86', color: '#00852b' },
+        { name: 'A87', color: '#efefef' },
+        { name: 'A88', color: '#d1d1d1' },
+        { name: 'A89', color: '#bbbcbc' },
+        { name: 'A90', color: '#484949' },
+        { name: 'A91', color: '#deb947' },
+        { name: 'A92', color: '#dab698' },
+        { name: 'A93', color: '#f4a999' },
+        { name: 'A94', color: '#ee7d67' },
+        { name: 'A95', color: '#f08661' },
+        { name: 'A96', color: '#d4722a' },
+        { name: 'A97', color: '#64acdf' },
+        { name: 'A98', color: '#64c2dc' },
+        { name: 'A99', color: '#4f9fb3' },
+        { name: 'A100', color: '#3196dd' },
+        { name: 'A101', color: '#1b6cb6' },
+        { name: 'A102', color: '#083980' },
+        { name: 'A103', color: '#0a668b' },
+        { name: 'A104', color: '#085b6e' },
+        { name: 'A105', color: '#004e78' },
+        { name: 'A106', color: '#005574' },
+        { name: 'A107', color: '#ccbe80' },
+        { name: 'A108', color: '#a49350' },
+        { name: 'A109', color: '#9e883c' },
+        { name: 'A110', color: '#766c2b' },
+        { name: 'A111', color: '#795f26' },
+        { name: 'A112', color: '#bab8a2' },
+        { name: 'A113', color: '#728c54' },
+        { name: 'A114', color: '#7e7c44' },
+        { name: 'A115', color: '#64692e' },
+        { name: 'A116', color: '#4e582c' },
+        { name: 'A117', color: '#4a5e2d' },
+        { name: 'A118', color: '#71c4b6' },
+        { name: 'A119', color: '#66cc99' },
+        { name: 'A120', color: '#569a83' },
+        { name: 'A121', color: '#14a45b' },
+        { name: 'A122', color: '#18a818' },
+        { name: 'A123', color: '#04552e' },
+        { name: 'A124', color: '#136b5a' },
+        { name: 'A125', color: '#054641' },
+        { name: 'A126', color: '#d9b6d6' },
+        { name: 'A127', color: '#ad62a4' },
+        { name: 'A128', color: '#e68ca3' },
+        { name: 'A129', color: '#de5479' },
+        { name: 'A130', color: '#9e82ba' },
+        { name: 'A131', color: '#e8416b' },
+        { name: 'A132', color: '#b7388f' },
+        { name: 'A133', color: '#581f7e' },
+        { name: 'A134', color: '#8ca3d4' },
+        { name: 'A135', color: '#9a9acc' },
+        { name: 'A136', color: '#5981c1' },
+        { name: 'A137', color: '#4166b0' },
+        { name: 'A138', color: '#475fab' },
+        { name: 'A139', color: '#374593' },
+        { name: 'A140', color: '#3d56a5' },
+        { name: 'A141', color: '#294299' },
+        { name: 'A142', color: '#25268a' },
+        { name: 'A143', color: '#1a2f6f' },
+        { name: 'A144', color: '#d3c95d' },
+        { name: 'A145', color: '#510918' },
+        { name: 'A146', color: '#64b39e' },
+        { name: 'A147', color: '#634338' },
+        { name: 'A148', color: '#edd39e' },
+        { name: 'A149', color: '#6963ab' },
+        { name: 'A150', color: '#2b3f1f' },
+        { name: 'A151', color: '#9791c5' },
+        { name: 'A152', color: '#b8bde0' },
+        { name: 'A153', color: '#f9c898' },
+        { name: 'A154', color: '#c39069' },
+        { name: 'A155', color: '#44505b' },
+        { name: 'A156', color: '#3e4955' },
+        { name: 'A157', color: '#202830' },
+    ]
+);
+    </script>
+    <script>
+        // ==================== App State ====================
         var app = {
             paletteNames: { 'mard':'MARD','hama':'Hama','perler':'Perler','perler-mini':'Perler Mini','nabbi':'Nabbi','artkal-s':'Artkal S (2.6mm)','artkal-r':'Artkal R (5mm)','artkal-c':'Artkal C (10mm)','artkal-a':'Artkal A (10mm mini)' },
+            mode: 'generate', // 'generate' or 'draw'
             counts: [],
-            paletteKey: '',
+            paletteKey: 'mard',
             sort: 'count',
             gridData: [],
-            gridSize: 0
+            gridSize: 0,
+            canvasReady: false,
+
+            // Edit mode state
+            editTool: 'view', // 'view', 'edit', 'select'
+            editCellSize: 0,
+            pickerTargetCell: null,
+
+            // Selection state
+            selecting: false,
+            selStart: null,
+            selEnd: null,
+
+            // Draw mode state
+            drawTool: 'brush', // 'brush', 'eraser', 'fill', 'shape'
+            drawShape: '', // 'line', 'rect', 'circle'
+            drawing: false,
+            drawShapeStart: null,
+            drawShapeEnd: null,
+            drawCanvasData: [], // 2D array for draw mode: null or {name, color, count}
+            drawColor: '#ff0000',
+
+            // Undo/Redo
+            history: [],
+            historyIndex: -1,
+            maxHistory: 50
         };
 
-        (function() {
-            var sel = document.getElementById('paletteSelect');
+        // ==================== Init (moved to end of script) ====================
+
+        function initPaletteSelect(selId, prevId) {
+            var sel = document.getElementById(selId);
+            sel.innerHTML = '';
             var keys = Object.keys(app.paletteNames);
             for (var k = 0; k < keys.length; k++) {
                 if (window.allPalettes && window.allPalettes.has(keys[k])) {
@@ -207,13 +1374,14 @@
                     sel.appendChild(opt);
                 }
             }
-            updatePalettePreview();
-        })();
+            updatePalettePreview(selId, prevId);
+            sel.addEventListener('change', function() { updatePalettePreview(selId, prevId); });
+        }
 
-        function updatePalettePreview() {
-            var key = document.getElementById('paletteSelect').value;
+        function updatePalettePreview(selId, prevId) {
+            var key = document.getElementById(selId).value;
             var pal = window.allPalettes.get(key);
-            var container = document.getElementById('palettePreview');
+            var container = document.getElementById(prevId);
             if (!pal) { container.innerHTML = ''; return; }
             var dots = '';
             var limit = pal.length < 20 ? pal.length : 20;
@@ -225,13 +1393,28 @@
             }
             container.innerHTML = dots;
         }
-        document.getElementById('paletteSelect').addEventListener('change', updatePalettePreview);
 
+        // ==================== Upload ====================
         var uploadInput = document.getElementById('upload');
         var uploadZone = document.getElementById('uploadZone');
         var uploadPreview = document.getElementById('uploadPreview');
         var previewThumb = document.getElementById('previewThumb');
         var fileNameEl = document.getElementById('fileName');
+
+        function setupUpload() {
+            uploadInput.addEventListener('change', function(e) { handleFile(e.target.files[0]); });
+            uploadZone.addEventListener('dragover', function(e) { e.preventDefault(); uploadZone.classList.add('dragover'); });
+            uploadZone.addEventListener('dragleave', function() { uploadZone.classList.remove('dragover'); });
+            uploadZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadZone.classList.remove('dragover');
+                var file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    uploadInput.files = e.dataTransfer.files;
+                    handleFile(file);
+                }
+            });
+        }
 
         function handleFile(file) {
             if (!file) return;
@@ -240,78 +1423,62 @@
             uploadPreview.style.display = 'flex';
             uploadZone.classList.add('has-file');
         }
-        uploadInput.addEventListener('change', function(e) { handleFile(e.target.files[0]); });
-        uploadZone.addEventListener('dragover', function(e) { e.preventDefault(); uploadZone.classList.add('dragover'); });
-        uploadZone.addEventListener('dragleave', function() { uploadZone.classList.remove('dragover'); });
-        uploadZone.addEventListener('drop', function(e) {
-            e.preventDefault();
-            uploadZone.classList.remove('dragover');
-            var file = e.dataTransfer.files[0];
-            if (file && file.type.startsWith('image/')) {
-                uploadInput.files = e.dataTransfer.files;
-                handleFile(file);
+
+        // ==================== Mode Switch ====================
+        function switchMode(mode) {
+            app.mode = mode;
+            var tabs = document.querySelectorAll('.mode-tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.toggle('active', tabs[i].dataset.mode === mode);
             }
-        });
+            document.getElementById('generateControls').style.display = mode === 'generate' ? 'block' : 'none';
+            document.getElementById('drawControls').style.display = mode === 'draw' ? 'block' : 'none';
 
-        var canvasWrapper = document.getElementById('canvasWrapper');
-        var tooltipEl = document.createElement('div');
-        tooltipEl.className = 'color-tooltip';
-        canvasWrapper.appendChild(tooltipEl);
+            // Always show main content area so users can see the canvas / empty state
+            document.getElementById('mainContent').classList.add('visible');
 
-        document.getElementById('canvas').addEventListener('mousemove', function(e) {
-            if (app.gridData.length === 0) return;
-            var rect = this.getBoundingClientRect();
-            var scaleX = this.width / rect.width;
-            var scaleY = this.height / rect.height;
-            var px = Math.floor((e.clientX - rect.left) * scaleX);
-            var py = Math.floor((e.clientY - rect.top) * scaleY);
-            var cellSize = 800 / app.gridSize;
-            var gx = Math.floor(px / cellSize);
-            var gy = Math.floor(py / cellSize);
-            if (gx < 0 || gx >= app.gridSize || gy < 0 || gy >= app.gridSize || !app.gridData[gy] || !app.gridData[gy][gx]) {
-                tooltipEl.classList.remove('visible');
-                return;
-            }
-            var cell = app.gridData[gy][gx];
-            tooltipEl.innerHTML = '<div class="color-tooltip-swatch" style="background:' + cell.color + '"></div><span class="color-tooltip-name">' + cell.name + '</span><span class="color-tooltip-hex">' + cell.color + '</span><span class="color-tooltip-pos">(' + gx + ', ' + gy + ')</span>';
-            tooltipEl.classList.add('visible');
-            var wrapperRect = canvasWrapper.getBoundingClientRect();
-            var tx = e.clientX - wrapperRect.left + 16;
-            var ty = e.clientY - wrapperRect.top - 40;
-            if (tx + 220 > wrapperRect.width) tx = e.clientX - wrapperRect.left - 220;
-            if (ty < 0) ty = e.clientY - wrapperRect.top + 20;
-            tooltipEl.style.left = tx + 'px';
-            tooltipEl.style.top = ty + 'px';
-        });
-        document.getElementById('canvas').addEventListener('mouseleave', function() { tooltipEl.classList.remove('visible'); });
-
-        function showToast(msg) {
-            var t = document.getElementById('toast');
-            t.textContent = msg;
-            t.classList.add('show');
-            setTimeout(function() { t.classList.remove('show'); }, 2200);
-        }
-
-        function hexToRgb(hex) {
-            hex = hex.replace('#', '');
-            return [parseInt(hex.substring(0, 2), 16), parseInt(hex.substring(2, 4), 16), parseInt(hex.substring(4, 6), 16)];
-        }
-
-        function getNearestColor(r, g, b, paletteArray) {
-            var best = null;
-            var minDist = 999999;
-            for (var i = 0; i < paletteArray.length; i++) {
-                var rgb = hexToRgb(paletteArray[i].color);
-                var dr = r - rgb[0], dg = g - rgb[1], db = b - rgb[2];
-                var dist = dr * dr + dg * dg + db * db;
-                if (dist < minDist) {
-                    minDist = dist;
-                    best = { name: paletteArray[i].name, color: paletteArray[i].color };
+            if (mode === 'generate') {
+                document.getElementById('editToolbar').classList.toggle('visible', app.canvasReady);
+                document.getElementById('drawToolbar').classList.remove('visible');
+                document.getElementById('canvasTitle').innerHTML = '📐 图纸预览';
+                // Update empty state text for generate mode
+                document.getElementById('canvasEmptyText').textContent = '上传图片并点击「生成图纸」';
+                document.getElementById('canvasEmptyHint').textContent = '图纸将在这里显示';
+                // Show/hide canvas vs empty based on whether we have generate data
+                if (app.gridData.length > 0) {
+                    canvas.style.display = 'block';
+                    document.getElementById('canvasEmpty').style.display = 'none';
+                    // Ensure editCellSize is set correctly for selection overlay
+                    app.editCellSize = 800 / app.gridSize;
+                    drawFromGridData();
+                    renderStats();
+                } else {
+                    canvas.style.display = 'none';
+                    document.getElementById('canvasEmpty').style.display = 'flex';
+                }
+            } else {
+                document.getElementById('editToolbar').classList.remove('visible');
+                document.getElementById('canvasTitle').innerHTML = '🎨 自由画图';
+                // Update empty state text for draw mode
+                document.getElementById('canvasEmptyText').textContent = '设置参数并点击「新建画布」';
+                document.getElementById('canvasEmptyHint').textContent = '开始你的自由创作';
+                if (app.drawCanvasData.length > 0) {
+                    app.canvasReady = true;
+                    canvas.style.display = 'block';
+                    document.getElementById('canvasEmpty').style.display = 'none';
+                    document.getElementById('drawToolbar').classList.add('visible');
+                    drawFromData();
+                    renderStats();
+                } else {
+                    canvas.style.display = 'none';
+                    document.getElementById('canvasEmpty').style.display = 'flex';
+                    document.getElementById('drawToolbar').classList.remove('visible');
                 }
             }
-            return best;
+            closeColorPicker();
         }
 
+        // ==================== Core Generate ====================
         function handleGenerate() {
             var file = uploadInput.files[0];
             if (!file) { showToast('请先上传图片'); return; }
@@ -321,6 +1488,7 @@
             if (!pal || pal.length === 0) { showToast('调色板数据为空'); return; }
 
             var gs = parseInt(document.getElementById('gridSize').value) || 50;
+            gs = Math.max(10, Math.min(200, gs));
             var canvas = document.getElementById('canvas');
             var ctx = canvas.getContext('2d');
             var btn = document.getElementById('generateBtn');
@@ -337,6 +1505,7 @@
             app.gridData = [];
             app.gridSize = gs;
             app.paletteKey = palKey;
+            app.editCellSize = cellSize;
 
             var img = new Image();
             img.onload = function() {
@@ -364,8 +1533,7 @@
                                 app.gridData[y][x] = null;
                                 continue;
                             }
-
-                            app.gridData[y][x] = match;
+                            app.gridData[y][x] = { name: match.name, color: match.color };
                             ctx.fillStyle = match.color;
                             ctx.fillRect(Math.round(x * cellSize), Math.round(y * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
 
@@ -376,58 +1544,689 @@
                         }
                     }
 
-                    ctx.strokeStyle = 'rgba(0,0,0,0.12)';
-                    ctx.lineWidth = 0.5;
-                    for (var i = 0; i <= gs; i++) {
-                        var pos = Math.round(i * cellSize) + 0.5;
-                        ctx.beginPath(); ctx.moveTo(pos, 0); ctx.lineTo(pos, 800); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(0, pos); ctx.lineTo(800, pos); ctx.stroke();
-                    }
-                    ctx.strokeStyle = 'rgba(0,0,0,0.30)';
-                    ctx.lineWidth = 1;
-                    for (var i = 0; i <= gs; i += 5) {
-                        var pos = Math.round(i * cellSize) + 0.5;
-                        ctx.beginPath(); ctx.moveTo(pos, 0); ctx.lineTo(pos, 800); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(0, pos); ctx.lineTo(800, pos); ctx.stroke();
-                    }
+                    renderGridLines(ctx, gs, cellSize);
 
-                    var resultArray = [];
-                    var mapKeys = Object.keys(countMap);
-                    for (var i = 0; i < mapKeys.length; i++) {
-                        resultArray.push(countMap[mapKeys[i]]);
-                    }
-
+                    var resultArray = mapToArray(countMap);
                     var totalAll = 0;
-                    for (var i = 0; i < resultArray.length; i++) {
-                        totalAll += resultArray[i].count;
-                    }
-
-                    console.log('[bead] Colors found:', resultArray.length, 'Total beads:', totalAll);
+                    for (var i = 0; i < resultArray.length; i++) totalAll += resultArray[i].count;
 
                     app.counts = resultArray;
+                    app.canvasReady = true;
+                    app.history = [];
+                    app.historyIndex = -1;
 
+                    document.getElementById('modeTabs').style.display = 'flex';
                     document.getElementById('mainContent').classList.add('visible');
                     canvas.style.display = 'block';
                     document.getElementById('canvasEmpty').style.display = 'none';
                     document.getElementById('canvasInfo').textContent = gs + 'x' + gs + '  \u00B7  ' + resultArray.length + ' \u8272';
+                    document.getElementById('editToolbar').classList.add('visible');
+                    canvas.classList.add('pointer-cursor');
 
-                    renderStats();
-                    showToast('\u56FE\u7EB8\u751F\u6210\u6210\u529F\uFF0C' + resultArray.length + ' \u8272\uFF0C\u5171 ' + totalAll.toLocaleString() + ' \u9897');
-
+                    recalcAndRenderStats();
+                    showToast('图纸生成成功，' + resultArray.length + ' 色，共 ' + totalAll.toLocaleString() + ' 颗');
                 } catch (err) {
                     console.error('Error:', err);
                     showToast('生成失败: ' + err.message);
                 } finally {
                     btn.disabled = false;
-                    btn.innerHTML = '<span>\u26A1</span> \u751F\u6210\u56FE\u7EB8';
+                    btn.innerHTML = '<span>⚡</span> 生成图纸';
                 }
             };
             img.onerror = function() {
                 btn.disabled = false;
-                btn.innerHTML = '<span>\u26A1</span> \u751F\u6210\u56FE\u7EB8';
+                btn.innerHTML = '<span>⚡</span> 生成图纸';
                 showToast('图片加载失败');
             };
             img.src = URL.createObjectURL(file);
+        }
+
+        function renderGridLines(ctx, gs, cellSize) {
+            ctx.strokeStyle = 'rgba(0,0,0,0.12)';
+            ctx.lineWidth = 0.5;
+            for (var i = 0; i <= gs; i++) {
+                var pos = Math.round(i * cellSize) + 0.5;
+                ctx.beginPath(); ctx.moveTo(pos, 0); ctx.lineTo(pos, 800); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, pos); ctx.lineTo(800, pos); ctx.stroke();
+            }
+            ctx.strokeStyle = 'rgba(0,0,0,0.30)';
+            ctx.lineWidth = 1;
+            for (var i = 0; i <= gs; i += 5) {
+                var pos = Math.round(i * cellSize) + 0.5;
+                ctx.beginPath(); ctx.moveTo(pos, 0); ctx.lineTo(pos, 800); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, pos); ctx.lineTo(800, pos); ctx.stroke();
+            }
+        }
+
+        function mapToArray(countMap) {
+            var resultArray = [];
+            var mapKeys = Object.keys(countMap);
+            for (var i = 0; i < mapKeys.length; i++) {
+                resultArray.push(countMap[mapKeys[i]]);
+            }
+            return resultArray;
+        }
+
+        // ==================== Canvas Events ====================
+        var canvas = document.getElementById('canvas');
+        var canvasWrapper = document.getElementById('canvasWrapper');
+        var tooltipEl = document.createElement('div');
+        tooltipEl.className = 'color-tooltip';
+        canvasWrapper.appendChild(tooltipEl);
+
+        function setupCanvasEvents() {
+            canvas.addEventListener('mousemove', handleCanvasMouseMove);
+            canvas.addEventListener('mouseleave', handleCanvasMouseLeave);
+            canvas.addEventListener('mousedown', handleCanvasMouseDown);
+            document.addEventListener('mouseup', handleCanvasMouseUp);
+        }
+
+        function getCanvasCoords(e) {
+            var rect = canvas.getBoundingClientRect();
+            var scaleX = canvas.width / rect.width;
+            var scaleY = canvas.height / rect.height;
+            var px = Math.floor((e.clientX - rect.left) * scaleX);
+            var py = Math.floor((e.clientY - rect.top) * scaleY);
+            var cellSize = 800 / app.gridSize;
+            var gx = Math.floor(px / cellSize);
+            var gy = Math.floor(py / cellSize);
+            return { gx: gx, gy: gy, px: px, py: py, cellSize: cellSize, inBounds: gx >= 0 && gx < app.gridSize && gy >= 0 && gy < app.gridSize };
+        }
+
+        function handleCanvasMouseMove(e) {
+            var coords = getCanvasCoords(e);
+
+            // Tooltip for view/edit mode
+            if (app.mode === 'generate' && app.editTool === 'view') {
+                showTooltip(e, coords);
+            } else {
+                tooltipEl.classList.remove('visible');
+            }
+
+            // Selection drag
+            if (app.mode === 'generate' && app.editTool === 'select' && app.selecting) {
+                app.selEnd = { x: coords.gx, y: coords.gy };
+                updateSelectionOverlay();
+            }
+
+            // Draw tool drag
+            if (app.mode === 'draw' && app.drawing) {
+                if (app.drawTool === 'brush') {
+                    drawBrushAt(coords.gx, coords.gy);
+                } else if (app.drawTool === 'eraser') {
+                    drawEraserAt(coords.gx, coords.gy);
+                } else if (app.drawTool === 'shape') {
+                    app.drawShapeEnd = { x: coords.gx, y: coords.gy };
+                    drawShapePreview();
+                }
+            }
+        }
+
+        function handleCanvasMouseLeave() {
+            tooltipEl.classList.remove('visible');
+        }
+
+        function handleCanvasMouseDown(e) {
+            if (e.button !== 0) return;
+            var coords = getCanvasCoords(e);
+            if (!coords.inBounds) return;
+
+            if (app.mode === 'generate') {
+                if (app.editTool === 'edit') {
+                    showColorPicker(coords.gx, coords.gy, e);
+                } else if (app.editTool === 'select') {
+                    app.selecting = true;
+                    app.selStart = { x: coords.gx, y: coords.gy };
+                    app.selEnd = { x: coords.gx, y: coords.gy };
+                    updateSelectionOverlay();
+                }
+            } else if (app.mode === 'draw') {
+                if (app.drawTool === 'brush') {
+                    app.drawing = true;
+                    saveHistory();
+                    drawBrushAt(coords.gx, coords.gy);
+                } else if (app.drawTool === 'eraser') {
+                    app.drawing = true;
+                    saveHistory();
+                    drawEraserAt(coords.gx, coords.gy);
+                } else if (app.drawTool === 'fill') {
+                    saveHistory();
+                    floodFill(coords.gx, coords.gy, app.drawColor);
+                    app.drawing = false;
+                } else if (app.drawTool === 'shape') {
+                    app.drawing = true;
+                    app.drawShapeStart = { x: coords.gx, y: coords.gy };
+                    app.drawShapeEnd = { x: coords.gx, y: coords.gy };
+                }
+            }
+        }
+
+        function handleCanvasMouseUp(e) {
+            if (app.mode === 'generate' && app.editTool === 'select' && app.selecting) {
+                app.selecting = false;
+                updateSelectionOverlay();
+            }
+
+            if (app.mode === 'draw' && app.drawing) {
+                if (app.drawTool === 'shape' && app.drawShapeStart && app.drawShapeEnd) {
+                    saveHistory();
+                    drawShapeFinal();
+                }
+                app.drawing = false;
+                recalcAndRenderStats();
+            }
+        }
+
+        function showTooltip(e, coords) {
+            if (app.gridData.length === 0 || !coords.inBounds) { tooltipEl.classList.remove('visible'); return; }
+            var cell = app.gridData[coords.gy] && app.gridData[coords.gy][coords.gx];
+            if (!cell) { tooltipEl.classList.remove('visible'); return; }
+
+            tooltipEl.innerHTML = '<div class="color-tooltip-swatch" style="background:' + cell.color + '"></div><span class="color-tooltip-name">' + cell.name + '</span><span class="color-tooltip-hex">' + cell.color + '</span><span class="color-tooltip-pos">(' + coords.gx + ', ' + coords.gy + ')</span>';
+            tooltipEl.classList.add('visible');
+            var wrapperRect = canvasWrapper.getBoundingClientRect();
+            var tx = e.clientX - wrapperRect.left + 16;
+            var ty = e.clientY - wrapperRect.top - 40;
+            if (tx + 220 > wrapperRect.width) tx = e.clientX - wrapperRect.left - 220;
+            if (ty < 0) ty = e.clientY - wrapperRect.top + 20;
+            tooltipEl.style.left = tx + 'px';
+            tooltipEl.style.top = ty + 'px';
+        }
+
+        // ==================== Color Picker Popup ====================
+        function showColorPicker(gx, gy, e) {
+            closeColorPicker();
+            app.pickerTargetCell = { x: gx, y: gy };
+
+            var pal = window.allPalettes.get(app.paletteKey);
+            if (!pal) return;
+
+            var popup = document.getElementById('colorPickerPopup');
+            var grid = document.getElementById('colorPickerGrid');
+            var html = '';
+            for (var i = 0; i < pal.length; i++) {
+                html += '<div class="color-picker-cell" style="background:' + pal[i].color + '" data-color="' + pal[i].color + '" data-name="' + pal[i].name + '" onclick="pickColorFromPopup(\'' + pal[i].color + '\',\'' + escapeHtml(pal[i].name) + '\')"></div>';
+            }
+            grid.innerHTML = html;
+
+            var wrapperRect = canvasWrapper.getBoundingClientRect();
+            popup.style.left = (e.clientX - wrapperRect.left + 10) + 'px';
+            popup.style.top = (e.clientY - wrapperRect.top + 10) + 'px';
+            popup.classList.add('visible');
+        }
+
+        function closeColorPicker() {
+            document.getElementById('colorPickerPopup').classList.remove('visible');
+            app.pickerTargetCell = null;
+        }
+
+        function pickColorFromPopup(color, name) {
+            if (!app.pickerTargetCell) return;
+            var gx = app.pickerTargetCell.x;
+            var gy = app.pickerTargetCell.y;
+            var oldCell = app.gridData[gy] && app.gridData[gy][gx];
+
+            saveHistory();
+            app.gridData[gy][gx] = { name: name, color: color };
+
+            var cellSize = app.editCellSize;
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = color;
+            ctx.fillRect(Math.round(gx * cellSize), Math.round(gy * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
+            renderGridLines(ctx, app.gridSize, cellSize);
+
+            closeColorPicker();
+            recalcAndRenderStats();
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        // ==================== Edit Tools ====================
+        function setEditTool(tool) {
+            app.editTool = tool;
+            document.getElementById('toolView').classList.toggle('active', tool === 'view');
+            document.getElementById('toolEdit').classList.toggle('active', tool === 'edit');
+            document.getElementById('toolSelect').classList.toggle('active', tool === 'select');
+
+            if (tool === 'view') {
+                canvas.classList.remove('pointer-cursor');
+                canvas.classList.add('pointer-cursor');
+            } else if (tool === 'edit') {
+                canvas.classList.remove('pointer-cursor');
+                canvas.classList.add('pointer-cursor');
+            } else {
+                canvas.classList.remove('pointer-cursor');
+                canvas.classList.add('grid-cursor');
+            }
+
+            document.getElementById('selectToolbarSep').style.display = tool === 'select' ? 'block' : 'none';
+            document.getElementById('selectToolbar').style.display = tool === 'select' ? 'flex' : 'none';
+
+            if (tool !== 'select') clearSelection();
+            closeColorPicker();
+        }
+
+        function updateSelectionOverlay() {
+            var overlay = document.getElementById('selectionOverlay');
+            if (!app.selStart || !app.selEnd) { overlay.style.display = 'none'; return; }
+
+            var x1 = Math.min(app.selStart.x, app.selEnd.x);
+            var y1 = Math.min(app.selStart.y, app.selEnd.y);
+            var x2 = Math.max(app.selStart.x, app.selEnd.x);
+            var y2 = Math.max(app.selStart.y, app.selEnd.y);
+
+            var cellSize = app.editCellSize;
+            if (!cellSize || cellSize <= 0) { cellSize = 800 / app.gridSize; }
+
+            var canvasRect = canvas.getBoundingClientRect();
+            var wrapperRect = canvasWrapper.getBoundingClientRect();
+            if (canvasRect.width === 0 || canvasRect.height === 0) { overlay.style.display = 'none'; return; }
+
+            var offsetX = canvasRect.left - wrapperRect.left;
+            var offsetY = canvasRect.top - wrapperRect.top;
+            var scaleX = canvasRect.width / canvas.width;
+            var scaleY = canvasRect.height / canvas.height;
+
+            overlay.style.display = 'block';
+            overlay.style.left = (offsetX + x1 * cellSize * scaleX) + 'px';
+            overlay.style.top = (offsetY + y1 * cellSize * scaleY) + 'px';
+            overlay.style.width = ((x2 - x1 + 1) * cellSize * scaleX) + 'px';
+            overlay.style.height = ((y2 - y1 + 1) * cellSize * scaleY) + 'px';
+        }
+
+        function clearSelection() {
+            app.selecting = false;
+            app.selStart = null;
+            app.selEnd = null;
+            document.getElementById('selectionOverlay').style.display = 'none';
+        }
+
+        function applySelectionReplace() {
+            if (!app.selStart || !app.selEnd) { showToast('请先框选区域'); return; }
+            var color = document.getElementById('selectColorPicker').value;
+            var pal = window.allPalettes.get(app.paletteKey);
+            if (!pal || pal.length === 0) { showToast('调色板数据为空'); return; }
+            var match = getNearestColorHex(color, pal);
+            if (!match) { showToast('无法匹配颜色'); return; }
+
+            var x1 = Math.min(app.selStart.x, app.selEnd.x);
+            var y1 = Math.min(app.selStart.y, app.selEnd.y);
+            var x2 = Math.max(app.selStart.x, app.selEnd.x);
+            var y2 = Math.max(app.selStart.y, app.selEnd.y);
+
+            saveHistory();
+            var cellSize = app.editCellSize;
+            if (!cellSize || cellSize <= 0) { cellSize = 800 / app.gridSize; }
+            var ctx = canvas.getContext('2d');
+            var replacedCount = 0;
+
+            for (var y = y1; y <= y2; y++) {
+                for (var x = x1; x <= x2; x++) {
+                    if (app.gridData[y] && app.gridData[y][x]) {
+                        app.gridData[y][x] = { name: match.name, color: match.color };
+                        ctx.fillStyle = match.color;
+                        ctx.fillRect(Math.round(x * cellSize), Math.round(y * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
+                        replacedCount++;
+                    }
+                }
+            }
+            renderGridLines(ctx, app.gridSize, cellSize);
+            clearSelection();
+            recalcAndRenderStats();
+            showToast('已替换 ' + replacedCount + ' 个像素格');
+        }
+
+        function getNearestColorHex(hex, pal) {
+            var r = parseInt(hex.slice(1,3),16);
+            var g = parseInt(hex.slice(3,5),16);
+            var b = parseInt(hex.slice(5,7),16);
+            return getNearestColor(r, g, b, pal);
+        }
+
+        // ==================== Draw Mode ====================
+        function handleNewCanvas() {
+            var gs = parseInt(document.getElementById('drawGridSize').value) || 50;
+            gs = Math.max(10, Math.min(200, gs));
+            var palKey = document.getElementById('drawPaletteSelect').value;
+            var pal = window.allPalettes.get(palKey);
+            if (!pal || pal.length === 0) { showToast('调色板数据为空'); return; }
+
+            app.gridSize = gs;
+            app.paletteKey = palKey;
+            app.editCellSize = 800 / gs;
+            app.drawCanvasData = [];
+            app.drawColor = pal[0].color;
+            document.getElementById('drawColorPicker').value = app.drawColor;
+
+            for (var y = 0; y < gs; y++) {
+                app.drawCanvasData[y] = [];
+                for (var x = 0; x < gs; x++) {
+                    app.drawCanvasData[y][x] = null;
+                }
+            }
+
+            app.canvasReady = true;
+            app.history = [];
+            app.historyIndex = -1;
+
+            document.getElementById('modeTabs').style.display = 'flex';
+            document.getElementById('mainContent').classList.add('visible');
+            canvas.style.display = 'block';
+            document.getElementById('canvasEmpty').style.display = 'none';
+            document.getElementById('drawToolbar').classList.add('visible');
+            canvas.classList.add('grid-cursor');
+
+            drawFromData();
+            recalcAndRenderStats();
+            showToast('新画布已创建: ' + gs + 'x' + gs);
+        }
+
+        function handleClearCanvas() {
+            if (!confirm('清空当前画布？此操作不可恢复')) return;
+            var gs = app.gridSize;
+            saveHistory();
+            for (var y = 0; y < gs; y++) {
+                for (var x = 0; x < gs; x++) {
+                    app.drawCanvasData[y][x] = null;
+                }
+            }
+            drawFromData();
+            recalcAndRenderStats();
+        }
+
+        function drawFromData() {
+            var ctx = canvas.getContext('2d');
+            var gs = app.gridSize;
+            var cellSize = 800 / gs;
+            canvas.width = 800;
+            canvas.height = 800;
+
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, 800, 800);
+
+            for (var y = 0; y < gs; y++) {
+                for (var x = 0; x < gs; x++) {
+                    var cell = app.drawCanvasData[y] && app.drawCanvasData[y][x];
+                    if (cell) {
+                        ctx.fillStyle = cell.color;
+                        ctx.fillRect(Math.round(x * cellSize), Math.round(y * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
+                    }
+                }
+            }
+            renderGridLines(ctx, gs, cellSize);
+            document.getElementById('canvasInfo').textContent = gs + 'x' + gs;
+        }
+
+        function setDrawTool(tool) {
+            app.drawTool = tool;
+            document.getElementById('toolBrush').classList.toggle('active', tool === 'brush');
+            document.getElementById('toolEraser').classList.toggle('active', tool === 'eraser');
+            document.getElementById('toolFill').classList.toggle('active', tool === 'fill');
+
+            if (tool === 'shape') {
+                var shapeVal = document.getElementById('shapeSelect').value;
+                app.drawShape = shapeVal || 'rect';
+            } else {
+                app.drawShape = '';
+            }
+
+            canvas.classList.remove('grid-cursor', 'eraser-cursor', 'pointer-cursor', 'shape-cursor');
+            if (tool === 'brush') canvas.classList.add('grid-cursor');
+            else if (tool === 'eraser') canvas.classList.add('eraser-cursor');
+            else if (tool === 'fill') canvas.classList.add('pointer-cursor');
+            else if (tool === 'shape') canvas.classList.add('shape-cursor');
+        }
+
+        function drawBrushAt(gx, gy) {
+            if (gx < 0 || gx >= app.gridSize || gy < 0 || gy >= app.gridSize) return;
+            var pal = window.allPalettes.get(app.paletteKey);
+            var match = getNearestColorHex(app.drawColor, pal);
+            app.drawCanvasData[gy][gx] = { name: match.name, color: match.color };
+            renderCell(gx, gy, match.color);
+        }
+
+        function drawEraserAt(gx, gy) {
+            if (gx < 0 || gx >= app.gridSize || gy < 0 || gy >= app.gridSize) return;
+            app.drawCanvasData[gy][gx] = null;
+            renderCell(gx, gy, '#ffffff');
+        }
+
+        function renderCell(gx, gy, color) {
+            var ctx = canvas.getContext('2d');
+            var cellSize = 800 / app.gridSize;
+            ctx.fillStyle = color;
+            ctx.fillRect(Math.round(gx * cellSize), Math.round(gy * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
+            renderGridLines(ctx, app.gridSize, cellSize);
+        }
+
+        function floodFill(startX, startY, fillColor) {
+            if (startX < 0 || startX >= app.gridSize || startY < 0 || startY >= app.gridSize) return;
+            var pal = window.allPalettes.get(app.paletteKey);
+            var match = getNearestColorHex(fillColor, pal);
+
+            var startCell = app.drawCanvasData[startY] && app.drawCanvasData[startY][startX];
+            var startColor = startCell ? startCell.color : null;
+            if (startColor === match.color) return;
+
+            var stack = [[startX, startY]];
+            var visited = {};
+            var filled = 0;
+
+            while (stack.length > 0) {
+                var cell = stack.pop();
+                var x = cell[0], y = cell[1];
+                var key = x + ',' + y;
+                if (visited[key]) continue;
+                if (x < 0 || x >= app.gridSize || y < 0 || y >= app.gridSize) continue;
+
+                var c = app.drawCanvasData[y] && app.drawCanvasData[y][x];
+                var cColor = c ? c.color : null;
+                if (cColor !== startColor) continue;
+
+                visited[key] = true;
+                app.drawCanvasData[y][x] = { name: match.name, color: match.color };
+                renderCell(x, y, match.color);
+                filled++;
+
+                stack.push([x+1, y], [x-1, y], [x, y+1], [x, y-1]);
+            }
+            showToast('填充 ' + filled + ' 个像素格');
+        }
+
+        function drawShapePreview() {
+            if (!app.drawShapeStart || !app.drawShapeEnd) return;
+            drawFromData();
+            var ctx = canvas.getContext('2d');
+            var cellSize = 800 / app.gridSize;
+            ctx.strokeStyle = app.drawColor;
+            ctx.lineWidth = Math.max(1, cellSize * 0.3);
+            ctx.globalAlpha = 0.6;
+
+            if (app.drawShape === 'line') {
+                drawShapeLine(ctx, app.drawShapeStart, app.drawShapeEnd, cellSize);
+            } else if (app.drawShape === 'rect') {
+                var x1 = Math.min(app.drawShapeStart.x, app.drawShapeEnd.x) * cellSize;
+                var y1 = Math.min(app.drawShapeStart.y, app.drawShapeEnd.y) * cellSize;
+                var w = (Math.abs(app.drawShapeEnd.x - app.drawShapeStart.x) + 1) * cellSize;
+                var h = (Math.abs(app.drawShapeEnd.y - app.drawShapeStart.y) + 1) * cellSize;
+                ctx.strokeRect(x1, y1, w, h);
+            } else if (app.drawShape === 'circle') {
+                var cx = (app.drawShapeStart.x + app.drawShapeEnd.x) / 2 * cellSize;
+                var cy = (app.drawShapeStart.y + app.drawShapeEnd.y) / 2 * cellSize;
+                var rx = Math.abs(app.drawShapeEnd.x - app.drawShapeStart.x) / 2 * cellSize;
+                var ry = Math.abs(app.drawShapeEnd.y - app.drawShapeStart.y) / 2 * cellSize;
+                ctx.beginPath();
+                ctx.ellipse(cx + cellSize/2, cy + cellSize/2, Math.max(rx, cellSize/2), Math.max(ry, cellSize/2), 0, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        function drawShapeFinal() {
+            if (!app.drawShapeStart || !app.drawShapeEnd) return;
+            var pal = window.allPalettes.get(app.paletteKey);
+            var match = getNearestColorHex(app.drawColor, pal);
+            var cellSize = 800 / app.gridSize;
+            var ctx = canvas.getContext('2d');
+
+            if (app.drawShape === 'line') {
+                var pts = bresenhamLine(app.drawShapeStart.x, app.drawShapeStart.y, app.drawShapeEnd.x, app.drawShapeEnd.y);
+                for (var i = 0; i < pts.length; i++) {
+                    app.drawCanvasData[pts[i].y][pts[i].x] = { name: match.name, color: match.color };
+                    ctx.fillStyle = match.color;
+                    ctx.fillRect(Math.round(pts[i].x * cellSize), Math.round(pts[i].y * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
+                }
+            } else if (app.drawShape === 'rect') {
+                var x1 = Math.min(app.drawShapeStart.x, app.drawShapeEnd.x);
+                var y1 = Math.min(app.drawShapeStart.y, app.drawShapeEnd.y);
+                var x2 = Math.max(app.drawShapeStart.x, app.drawShapeEnd.x);
+                var y2 = Math.max(app.drawShapeStart.y, app.drawShapeEnd.y);
+                for (var y = y1; y <= y2; y++) {
+                    for (var x = x1; x <= x2; x++) {
+                        app.drawCanvasData[y][x] = { name: match.name, color: match.color };
+                        ctx.fillStyle = match.color;
+                        ctx.fillRect(Math.round(x * cellSize), Math.round(y * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
+                    }
+                }
+            } else if (app.drawShape === 'circle') {
+                var cx = Math.round((app.drawShapeStart.x + app.drawShapeEnd.x) / 2);
+                var cy = Math.round((app.drawShapeStart.y + app.drawShapeEnd.y) / 2);
+                var rx = Math.abs(app.drawShapeEnd.x - app.drawShapeStart.x) / 2;
+                var ry = Math.abs(app.drawShapeEnd.y - app.drawShapeStart.y) / 2;
+                for (var y = 0; y < app.gridSize; y++) {
+                    for (var x = 0; x < app.gridSize; x++) {
+                        var dx = (x - cx) / Math.max(rx, 0.5);
+                        var dy = (y - cy) / Math.max(ry, 0.5);
+                        if (dx * dx + dy * dy <= 1) {
+                            app.drawCanvasData[y][x] = { name: match.name, color: match.color };
+                            ctx.fillStyle = match.color;
+                            ctx.fillRect(Math.round(x * cellSize), Math.round(y * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
+                        }
+                    }
+                }
+            }
+            renderGridLines(ctx, app.gridSize, cellSize);
+        }
+
+        function drawShapeLine(ctx, start, end, cellSize) {
+            var pts = bresenhamLine(start.x, start.y, end.x, end.y);
+            for (var i = 0; i < pts.length; i++) {
+                ctx.fillRect(pts[i].x * cellSize, pts[i].y * cellSize, cellSize, cellSize);
+            }
+        }
+
+        function bresenhamLine(x0, y0, x1, y1) {
+            var pts = [];
+            var dx = Math.abs(x1 - x0), dy = Math.abs(y1 - y0);
+            var sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1;
+            var err = dx - dy;
+            while (true) {
+                pts.push({ x: x0, y: y0 });
+                if (x0 === x1 && y0 === y1) break;
+                var e2 = 2 * err;
+                if (e2 > -dy) { err -= dy; x0 += sx; }
+                if (e2 < dx) { err += dx; y0 += sy; }
+            }
+            return pts;
+        }
+
+        // ==================== Undo / Redo ====================
+        function saveHistory() {
+            var data;
+            if (app.mode === 'generate') {
+                data = JSON.parse(JSON.stringify(app.gridData));
+            } else {
+                data = JSON.parse(JSON.stringify(app.drawCanvasData));
+            }
+            // Remove future states
+            if (app.historyIndex < app.history.length - 1) {
+                app.history = app.history.slice(0, app.historyIndex + 1);
+            }
+            app.history.push(data);
+            if (app.history.length > app.maxHistory) {
+                app.history.shift();
+            } else {
+                app.historyIndex++;
+            }
+            updateUndoRedoButtons();
+        }
+
+        function doUndo() {
+            if (app.historyIndex <= 0) return;
+            app.historyIndex--;
+            restoreHistory();
+        }
+
+        function doRedo() {
+            if (app.historyIndex >= app.history.length - 1) return;
+            app.historyIndex++;
+            restoreHistory();
+        }
+
+        function restoreHistory() {
+            var data = app.history[app.historyIndex];
+            if (app.mode === 'generate') {
+                app.gridData = JSON.parse(JSON.stringify(data));
+                drawFromGridData();
+            } else {
+                app.drawCanvasData = JSON.parse(JSON.stringify(data));
+                drawFromData();
+            }
+            recalcAndRenderStats();
+            updateUndoRedoButtons();
+        }
+
+        function drawFromGridData() {
+            var ctx = canvas.getContext('2d');
+            var gs = app.gridSize;
+            var cellSize = 800 / gs;
+            canvas.width = 800;
+            canvas.height = 800;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, 800, 800);
+            for (var y = 0; y < gs; y++) {
+                for (var x = 0; x < gs; x++) {
+                    var cell = app.gridData[y] && app.gridData[y][x];
+                    if (cell) {
+                        ctx.fillStyle = cell.color;
+                        ctx.fillRect(Math.round(x * cellSize), Math.round(y * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
+                    }
+                }
+            }
+            renderGridLines(ctx, gs, cellSize);
+        }
+
+        function updateUndoRedoButtons() {
+            var canUndo = app.historyIndex > 0;
+            var canRedo = app.historyIndex < app.history.length - 1;
+            var undoBtn = document.getElementById('undoBtn');
+            var redoBtn = document.getElementById('redoBtn');
+            var drawUndoBtn = document.getElementById('drawUndoBtn');
+            var drawRedoBtn = document.getElementById('drawRedoBtn');
+            if (undoBtn) { undoBtn.disabled = !canUndo; }
+            if (redoBtn) { redoBtn.disabled = !canRedo; }
+            if (drawUndoBtn) { drawUndoBtn.disabled = !canUndo; }
+            if (drawRedoBtn) { drawRedoBtn.disabled = !canRedo; }
+        }
+
+        // ==================== Stats ====================
+        function recalcAndRenderStats() {
+            var data = app.mode === 'generate' ? app.gridData : app.drawCanvasData;
+            var countMap = {};
+            for (var y = 0; y < data.length; y++) {
+                for (var x = 0; x < data[y].length; x++) {
+                    var cell = data[y][x];
+                    if (!cell) continue;
+                    if (countMap[cell.name] === undefined) {
+                        countMap[cell.name] = { name: cell.name, color: cell.color, count: 0 };
+                    }
+                    countMap[cell.name].count++;
+                }
+            }
+            app.counts = mapToArray(countMap);
+            renderStats();
         }
 
         function sortStats(sortMode, btn) {
@@ -441,11 +2240,14 @@
         function renderStats() {
             var items = app.counts;
             if (!items || items.length === 0) {
-                document.getElementById('statsControls').style.display = 'none';
-                document.getElementById('statsFooter').style.display = 'none';
-                document.getElementById('statsEmpty').style.display = 'block';
-                document.getElementById('colorCount').textContent = '0 \u8272';
-                document.getElementById('totalCount').textContent = '0 \u9897';
+                var sc = document.getElementById('statsControls');
+                var sf = document.getElementById('statsFooter');
+                var se = document.getElementById('statsEmpty');
+                if (sc) sc.style.display = 'none';
+                if (sf) sf.style.display = 'none';
+                if (se) se.style.display = 'block';
+                document.getElementById('colorCount').textContent = '0 色';
+                document.getElementById('totalCount').textContent = '0 颗';
                 return;
             }
 
@@ -466,8 +2268,8 @@
             var html = '';
             for (var i = 0; i < arr.length; i++) {
                 var item = arr[i];
-                var pct = Math.round((item.count / maxCount) * 100);
-                var pctTotal = (item.count / total * 100).toFixed(1);
+                var pct = maxCount > 0 ? Math.round((item.count / maxCount) * 100) : 0;
+                var pctTotal = total > 0 ? (item.count / total * 100).toFixed(1) : '0.0';
                 html += '<div class="stats-item">' +
                     '<div class="color-swatch" style="background:' + item.color + '"></div>' +
                     '<div class="color-info">' +
@@ -483,8 +2285,8 @@
             document.getElementById('statsControls').style.display = 'flex';
             document.getElementById('statsFooter').style.display = 'block';
             document.getElementById('statsEmpty').style.display = 'none';
-            document.getElementById('colorCount').textContent = arr.length + ' \u8272';
-            document.getElementById('totalCount').textContent = total.toLocaleString() + ' \u9897';
+            document.getElementById('colorCount').textContent = arr.length + ' 色';
+            document.getElementById('totalCount').textContent = total.toLocaleString() + ' 颗';
         }
 
         function copyStats() {
@@ -498,7 +2300,7 @@
             }
             var total = 0;
             for (var i = 0; i < arr.length; i++) total += arr[i].count;
-            var gs = document.getElementById('gridSize').value;
+            var gs = app.gridSize;
             var text = '拼豆图纸统计清单\n品牌: ' + (app.paletteNames[app.paletteKey] || app.paletteKey) + '\n网格: ' + gs + 'x' + gs + '\n总计: ' + total.toLocaleString() + ' 颗\n\n';
             for (var i = 0; i < arr.length; i++) {
                 text += arr[i].name + ' (' + arr[i].color + '): ' + arr[i].count + ' 颗\n';
@@ -507,6 +2309,65 @@
                 navigator.clipboard.writeText(text).then(function() { showToast('已复制到剪贴板'); });
             }
         }
+
+        // ==================== Keyboard ====================
+        function setupKeyboard() {
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+                    e.preventDefault();
+                    doUndo();
+                }
+                if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+                    e.preventDefault();
+                    doRedo();
+                }
+                // Click outside to close color picker
+                if (e.key === 'Escape') {
+                    closeColorPicker();
+                    if (app.editTool === 'select') clearSelection();
+                }
+            });
+        }
+
+        // ==================== Utilities ====================
+        function hexToRgb(hex) {
+            hex = hex.replace('#', '');
+            return [parseInt(hex.substring(0, 2), 16), parseInt(hex.substring(2, 4), 16), parseInt(hex.substring(4, 6), 16)];
+        }
+
+        function getNearestColor(r, g, b, paletteArray) {
+            var best = null;
+            var minDist = 999999;
+            for (var i = 0; i < paletteArray.length; i++) {
+                var rgb = hexToRgb(paletteArray[i].color);
+                var dr = r - rgb[0], dg = g - rgb[1], db = b - rgb[2];
+                var dist = dr * dr + dg * dg + db * db;
+                if (dist < minDist) {
+                    minDist = dist;
+                    best = { name: paletteArray[i].name, color: paletteArray[i].color };
+                }
+            }
+            return best;
+        }
+
+        function showToast(msg) {
+            var t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(function() { t.classList.remove('show'); }, 2200);
+        }
+
+        // ==================== Init ====================
+        initPaletteSelect('paletteSelect', 'palettePreview');
+        initPaletteSelect('drawPaletteSelect', 'drawPalettePreview');
+        setupUpload();
+        setupCanvasEvents();
+        setupKeyboard();
+
+        // Bind draw color picker change
+        document.getElementById('drawColorPicker').addEventListener('input', function(e) {
+            app.drawColor = e.target.value;
+        });
     </script>
 </body>
 </html>
